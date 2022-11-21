@@ -13,10 +13,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Beranda",
-          textAlign: TextAlign.center,
-        ),
+        title: const Text("Beranda"),
         elevation: 0,
       ),
       drawer: Drawer(
