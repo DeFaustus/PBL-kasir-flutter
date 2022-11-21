@@ -1,13 +1,19 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:pbl_kasir/widgets/penjualan/tambah_produk.dart';
 
-class Penjualan extends StatelessWidget {
+class Penjualan extends StatefulWidget {
   const Penjualan({super.key});
 
   @override
+  State<Penjualan> createState() => _PenjualanState();
+}
+
+class _PenjualanState extends State<Penjualan> {
+  @override
   Widget build(BuildContext context) {
-    final _cariBarang = TextEditingController();
+    final cariBarang = TextEditingController();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -20,7 +26,7 @@ class Penjualan extends StatelessWidget {
         child: Column(
           children: [
             TextFormField(
-              controller: _cariBarang,
+              controller: cariBarang,
               decoration: InputDecoration(
                 hintText: "Cari Barang ....",
                 enabledBorder: OutlineInputBorder(
@@ -68,7 +74,14 @@ class Penjualan extends StatelessWidget {
                   ],
                 ),
               ),
-              onTap: () => print(_cariBarang.text),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => TambahProduk(),
+                  ),
+                );
+              },
             )
           ],
         ),

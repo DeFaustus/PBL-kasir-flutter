@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pbl_kasir/widgets/header_pendapatan.dart';
-import 'package:pbl_kasir/widgets/menu.dart';
+
+import 'header_pendapatan.dart';
+import 'menu.dart';
 
 class BodyPage extends StatelessWidget {
   final int totalHariIni = 0;

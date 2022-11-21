@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pbl_kasir/widgets/body.dart';
+
+import 'body.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
