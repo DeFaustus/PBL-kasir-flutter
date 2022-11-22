@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pbl_kasir/widgets/auth/login.dart';
 
 import 'body.dart';
 
@@ -16,6 +17,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("Beranda"),
         elevation: 0,
+        centerTitle: true,
       ),
       drawer: Drawer(
         child: ListView(
@@ -31,6 +33,16 @@ class _HomePageState extends State<HomePage> {
               icon: Icons.folder,
               text: 'My Files',
               onTap: () => print('Tap My Files'),
+            ),
+            _drawerItem(
+              icon: Icons.logout,
+              text: 'Log Out',
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const LoginPage(),
+                ),
+              ),
             ),
           ],
         ),

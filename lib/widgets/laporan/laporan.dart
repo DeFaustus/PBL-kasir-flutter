@@ -11,8 +11,9 @@ class Laporan extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           "Laporan",
-          textAlign: TextAlign.center,
         ),
+        centerTitle: true,
+        elevation: 0,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 25),

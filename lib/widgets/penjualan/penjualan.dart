@@ -16,10 +16,9 @@ class _PenjualanState extends State<Penjualan> {
     final cariBarang = TextEditingController();
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Penjualan",
-          textAlign: TextAlign.center,
-        ),
+        title: Text("Penjualan"),
+        centerTitle: true,
+        elevation: 0,
       ),
       body: Container(
         padding: EdgeInsets.all(25),

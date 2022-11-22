@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:pbl_kasir/widgets/auth/login.dart';
 
 import 'home/homepage.dart';
 
@@ -15,7 +16,7 @@ class SplashScreenWidget extends StatelessWidget {
           'assets/logo/sirdi.png',
         ),
         splashIconSize: 300,
-        nextScreen: HomePage(),
+        nextScreen: const LoginPage(),
         splashTransition: SplashTransition.fadeTransition,
         pageTransitionType: PageTransitionType.bottomToTop,
         backgroundColor: Colors.white);

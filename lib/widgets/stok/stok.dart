@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 
-class LaporanStok extends StatelessWidget {
-  const LaporanStok({super.key});
+class StokPage extends StatefulWidget {
+  const StokPage({super.key});
 
+  @override
+  State<StokPage> createState() => _StokPageState();
+}
+
+class _StokPageState extends State<StokPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Laporan Stok"),
+        title: Text("Stok"),
         centerTitle: true,
         elevation: 0,
       ),

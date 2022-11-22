@@ -8,6 +8,8 @@ class LaporanProduk extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Laporan Produk"),
+        centerTitle: true,
+        elevation: 0,
       ),
       body: Text("Produk"),
     );

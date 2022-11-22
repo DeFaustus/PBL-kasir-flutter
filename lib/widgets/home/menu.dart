@@ -109,7 +109,7 @@ class Menu extends StatelessWidget {
               ],
             ),
           ),
-          onTap: () => Navigator.pushNamed(context, '/stok'),
+          onTap: () => Navigator.pushNamed(context, '/stokpage'),
         ),
         GestureDetector(
           child: Container(

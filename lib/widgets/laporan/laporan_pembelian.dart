@@ -8,6 +8,8 @@ class LaporanPembelian extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Laporan Pembelian"),
+        centerTitle: true,
+        elevation: 0,
       ),
       body: Text("Pembelian"),
     );
