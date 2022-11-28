@@ -10,15 +10,17 @@ class BodyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          HeaderPendapatan(
-            pendapatan: totalHariIni,
-            size: size,
-          ),
-          const Menu()
-        ],
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            HeaderPendapatan(
+              pendapatan: totalHariIni,
+              size: size,
+            ),
+            const Menu()
+          ],
+        ),
       ),
     );
   }

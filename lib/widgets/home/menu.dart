@@ -29,7 +29,7 @@ class Menu extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  "Penjualan",
+                  "Kasir",
                   style: TextStyle(
                     fontSize: 18,
                     color: Theme.of(context).primaryColor,
@@ -45,39 +45,6 @@ class Menu extends StatelessWidget {
             ),
           ),
           onTap: () => Navigator.pushNamed(context, '/penjualan'),
-        ),
-        GestureDetector(
-          child: Container(
-            padding: const EdgeInsets.all(8),
-            width: 110,
-            height: 110,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(
-                color: Theme.of(context).primaryColor,
-                width: 2,
-              ),
-              color: Colors.white,
-            ),
-            child: Column(
-              children: [
-                Text(
-                  "Pembelian",
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                Image.asset(
-                  'assets/logo/pembelian.png',
-                  fit: BoxFit.cover,
-                ),
-              ],
-            ),
-          ),
-          onTap: () => Navigator.pushNamed(context, '/pembelian'),
         ),
         GestureDetector(
           child: Container(
@@ -110,6 +77,47 @@ class Menu extends StatelessWidget {
             ),
           ),
           onTap: () => Navigator.pushNamed(context, '/stokpage'),
+        ),
+        GestureDetector(
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            width: 110,
+            height: 110,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: Theme.of(context).primaryColor,
+                width: 2,
+              ),
+              color: Colors.white,
+            ),
+            child: Column(
+              children: [
+                Text(
+                  "Data Karyawan",
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                const Icon(
+                  Icons.people_outline,
+                  size: 120,
+                  color: Colors.blue,
+                ),
+                // Image.asset(
+                //   'assets/logo/pembelian.png',
+                //   fit: BoxFit.cover,
+                // ),
+              ],
+            ),
+          ),
+          onTap: () => Navigator.pushNamed(context, '/karyawan'),
         ),
         GestureDetector(
           child: Container(

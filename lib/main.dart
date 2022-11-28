@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pbl_kasir/widgets/home/homepage.dart';
+import 'package:pbl_kasir/widgets/karyawan/karyawan.dart';
 import 'package:pbl_kasir/widgets/laporan/laporan.dart';
 import 'package:pbl_kasir/widgets/laporan/laporan_pembelian.dart';
 import 'package:pbl_kasir/widgets/laporan/laporan_penjualan.dart';
@@ -97,6 +98,13 @@ class MyApp extends StatelessWidget {
           case '/stokpage':
             return PageTransition(
               child: const StokPage(),
+              type: PageTransitionType.leftToRight,
+              childCurrent: this,
+              duration: Duration(milliseconds: 250),
+            );
+          case '/karyawan':
+            return PageTransition(
+              child: const Karyawan(),
               type: PageTransitionType.leftToRight,
               childCurrent: this,
               duration: Duration(milliseconds: 250),
