@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:pbl_kasir/widgets/stok/stok_home.dart';
+import 'package:pbl_kasir/widgets/stok/tambah_barang.dart';
 
 class StokPage extends StatefulWidget {
   const StokPage({super.key});
@@ -16,7 +19,20 @@ class _StokPageState extends State<StokPage> {
         centerTitle: true,
         elevation: 0,
       ),
-      body: Text("Stok"),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            PageTransition(
+              child: const TambahBarang(),
+              type: PageTransitionType.leftToRight,
+            ),
+          );
+        },
+        child: Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      body: const StokHomePage(),
     );
   }
 }

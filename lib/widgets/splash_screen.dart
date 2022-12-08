@@ -20,11 +20,17 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget> {
   autoLogin() async {
     final prefs = await SharedPreferences.getInstance();
     final String? token = prefs.getString('token');
+    final String? name = prefs.getString('name');
+    final String? email = prefs.getString('email');
+    final bool? isAdmin = prefs.getBool('isAdmin');
     Auth.token = token.toString();
     print(Auth.token);
-    Auth.isLogin = token == null ? false : true;
     setState(() {
+      Auth.isLogin = token == null ? false : true;
       login = Auth.isLogin;
+      Auth.name = name.toString();
+      Auth.email = email.toString();
+      Auth.isAdmin = isAdmin as bool;
     });
     print(Auth.isLogin);
   }

@@ -23,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
   bool _isObscure = true;
 
   Future<void> login(BuildContext context) async {
-    Uri url = Uri.parse(BaseUrl.url + "/login");
+    Uri url = Uri.parse("${BaseUrl.url}/login");
     var response = await http.post(
       url,
       headers: <String, String>{
@@ -47,14 +47,16 @@ class _LoginPageState extends State<LoginPage> {
       } else {
         setState(() {
           gagal = false;
+          Auth.isLogin = true;
+          json['content']['role'] == 'admin'
+              ? Auth.isAdmin = true
+              : Auth.isAdmin = false;
+          Auth.token = "Bearer " + json['content']['access_token'];
         });
-        Auth.isLogin = true;
-        json['content']['role'] == 'admin'
-            ? Auth.isAdmin = true
-            : Auth.isAdmin = false;
-        Auth.token += json['content']['access_token'];
+        print(Auth.token);
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', Auth.token);
+        await prefs.setBool('isAdmin', Auth.isAdmin);
         Navigator.pushNamed(context, '/home');
       }
     } else {

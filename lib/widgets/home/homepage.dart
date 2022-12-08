@@ -16,30 +16,39 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String nama = "";
-  String email = "";
   getUser() async {
     Uri url = Uri.parse(BaseUrl.url + '/user');
-    var response = await http.get(url, headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-      'Authorization': Auth.token
-    });
-    var json = jsonDecode(response.body);
-    setState(() {
-      nama = json['name'];
-      email = json['email'];
-    });
+    try {
+      var response = await http.get(url, headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': Auth.token
+      });
+      var json = jsonDecode(response.body);
+      print(Auth.token);
+      setState(() {
+        Auth.name = json['name'];
+        Auth.email = json['email'];
+      });
+      print(Auth.isAdmin);
+    } catch (e) {
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (BuildContext context) => LoginPage()));
+    }
   }
 
   logout() async {
     final prefs = await SharedPreferences.getInstance();
     final success = await prefs.remove('token');
+    await prefs.remove('name');
+    await prefs.remove('email');
+    await prefs.remove('isAdmin');
   }
 
   @override
   void initState() {
     super.initState();
     getUser();
+    print("State");
   }
 
   @override
@@ -54,7 +63,7 @@ class _HomePageState extends State<HomePage> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            _drawerHeader(nama, email),
+            _drawerHeader(Auth.name, Auth.email),
             _drawerItem(
               icon: Icons.folder,
               text: 'My Files',
