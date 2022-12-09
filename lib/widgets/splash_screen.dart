@@ -30,7 +30,8 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget> {
       login = Auth.isLogin;
       Auth.name = name.toString();
       Auth.email = email.toString();
-      Auth.isAdmin = isAdmin as bool;
+      isAdmin == null ? Auth.isAdmin = false : Auth.isAdmin = true;
+      // Auth.isAdmin = isAdmin as bool;
     });
     print(Auth.isLogin);
   }

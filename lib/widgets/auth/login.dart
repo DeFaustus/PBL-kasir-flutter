@@ -21,7 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   bool gagal = false;
   String pesan = "";
   bool _isObscure = true;
-
+  bool isloading = false;
   Future<void> login(BuildContext context) async {
     Uri url = Uri.parse("${BaseUrl.url}/login");
     var response = await http.post(
@@ -43,6 +43,7 @@ class _LoginPageState extends State<LoginPage> {
         setState(() {
           gagal = true;
           pesan = json['message'];
+          isloading = false;
         });
       } else {
         setState(() {
@@ -67,107 +68,113 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: ListView(
-          children: [
-            // ignore: prefer_const_constructors
-            SizedBox(
-              height: 50,
-            ),
-            Container(
-              alignment: Alignment.center,
+      body: isloading == true
+          ? const Center(child: CircularProgressIndicator())
+          : Padding(
               padding: const EdgeInsets.all(10),
-              child: Image.asset("assets/logo/sirdi.png"),
-            ),
-            gagal == true
-                ? Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Container(
-                      width: 100,
-                      height: 80,
-                      color: Colors.red,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          pesan,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 20, color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  )
-                : Text(''),
-            Form(
-              key: _formKey,
-              child: Column(
+              child: ListView(
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    child: TextFormField(
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Email Wajib Di isi';
-                        }
-                        return null;
-                      },
-                      controller: emailController,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Masukkan Email',
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                    child: TextFormField(
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Password Wajib Di isi';
-                        }
-                        return null;
-                      },
-                      obscureText: _isObscure,
-                      controller: passwordController,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Password',
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _isObscure = !_isObscure;
-                            });
-                          },
-                          icon: Icon(_isObscure
-                              ? Icons.visibility
-                              : Icons.visibility_off),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Container(
+                  // ignore: prefer_const_constructors
+                  SizedBox(
                     height: 50,
-                    width: double.infinity,
-                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    child: ElevatedButton(
-                      child: const Text('Login'),
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          // Navigator.pushNamed(context, "/home");
-                          login(context);
-                        }
-                      },
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.all(10),
+                    child: Image.asset("assets/logo/sirdi.png"),
+                  ),
+                  gagal == true
+                      ? Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Container(
+                            width: 100,
+                            height: 80,
+                            color: Colors.red,
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                pesan,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        )
+                      : Text(''),
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Email Wajib Di isi';
+                              }
+                              return null;
+                            },
+                            controller: emailController,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Masukkan Email',
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Password Wajib Di isi';
+                              }
+                              return null;
+                            },
+                            obscureText: _isObscure,
+                            controller: passwordController,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Password',
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _isObscure = !_isObscure;
+                                  });
+                                },
+                                icon: Icon(_isObscure
+                                    ? Icons.visibility
+                                    : Icons.visibility_off),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          height: 50,
+                          width: double.infinity,
+                          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                          child: ElevatedButton(
+                            child: const Text('Login'),
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                // Navigator.pushNamed(context, "/home");
+                                setState(() {
+                                  isloading = true;
+                                });
+                                login(context);
+                              }
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-          ],
-        ),
-      ),
     );
   }
 }

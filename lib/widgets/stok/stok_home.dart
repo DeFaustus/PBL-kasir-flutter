@@ -94,7 +94,7 @@ class _StokHomePageState extends State<StokHomePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Celana Jeans Emba Ukuran Xl",
+                            "Celana Jeans Ukuran Xl",
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),

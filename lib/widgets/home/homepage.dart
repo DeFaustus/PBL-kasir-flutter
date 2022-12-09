@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -42,13 +44,24 @@ class _HomePageState extends State<HomePage> {
     await prefs.remove('name');
     await prefs.remove('email');
     await prefs.remove('isAdmin');
+    try {
+      Uri url = Uri.parse(BaseUrl.url + '/logout');
+      var response = await http.post(url, headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': Auth.token
+      });
+      print(response.body);
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (BuildContext context) => LoginPage()));
+    } catch (e) {
+      throw new FormatException(e.toString());
+    }
   }
 
   @override
   void initState() {
     super.initState();
     getUser();
-    print("State");
   }
 
   @override
@@ -65,13 +78,13 @@ class _HomePageState extends State<HomePage> {
           children: [
             _drawerHeader(Auth.name, Auth.email),
             _drawerItem(
-              icon: Icons.folder,
-              text: 'My Files',
-              onTap: () => print('Tap My Files'),
+              icon: Icons.catching_pokemon,
+              text: 'Kategori',
+              onTap: () => Navigator.pushNamed(context, '/kategori'),
             ),
             _drawerItem(
-              icon: Icons.folder,
-              text: 'My Files',
+              icon: Icons.people_alt,
+              text: 'Supplier',
               onTap: () => print('Tap My Files'),
             ),
             _drawerItem(

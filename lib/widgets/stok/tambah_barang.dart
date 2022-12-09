@@ -27,34 +27,17 @@ class _TambahBarangState extends State<TambahBarang> {
       });
       setState(() {
         listKategori = jsonDecode(response.body)['data'];
+        selectedValue = listKategori[0]['kategori_id'].toString();
       });
-      print(listKategori);
     } catch (e) {
       print(e);
     }
-  }
-
-  List<DropdownMenuItem<String>> get dropdownItems {
-    // List<DropdownMenuItem<String>> menuItems = listKategori.map((item) {
-    //   return DropdownMenuItem(
-    //       value: item['kategori_id'].toString(),
-    //       child: Text(item['kategori_id'].toString()));
-    // }).toList();
-    List<DropdownMenuItem<String>> menuItems = const [
-      DropdownMenuItem(child: Text("--- Pilih Kategori ---"), value: ""),
-      DropdownMenuItem(child: Text("USA"), value: "USA"),
-      DropdownMenuItem(child: Text("Canada"), value: "Canada"),
-      DropdownMenuItem(child: Text("Brazil"), value: "Brazil"),
-      DropdownMenuItem(child: Text("England"), value: "England"),
-    ];
-    return menuItems;
   }
 
   @override
   void initState() {
     super.initState();
     getCategory();
-    print(dropdownItems);
   }
 
   @override
@@ -82,6 +65,7 @@ class _TambahBarangState extends State<TambahBarang> {
                           labelText: 'Masukkan Kategori Barang',
                         ),
                         key: UniqueKey(),
+                        hint: Text("Pilih Kategori"),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Tidak Boleh Kosong';
@@ -94,19 +78,14 @@ class _TambahBarangState extends State<TambahBarang> {
                             selectedValue = newValue!;
                           });
                         },
-                        items: dropdownItems,
-                        // listKategori.map((item) {
-                        //   print(item['kategori_id'].toString() +
-                        //       " " +
-                        //       item['nama'].toString());
-                        //   return DropdownMenuItem(
-                        //     value: item['nama'].toString(),
-                        //     child: Text(item['nama'].toString()),
-                        //   );
-                        // }).toList(),
+                        items: listKategori.map((item) {
+                          return DropdownMenuItem(
+                            value: item['kategori_id'].toString(),
+                            child: Text(item['nama'].toString()),
+                          );
+                        }).toList(),
                       ),
                     ),
-                    Text(listKategori.toString()),
                     Padding(
                       padding: const EdgeInsets.only(top: 10, bottom: 10),
                       child: TextFormField(
