@@ -65,12 +65,13 @@ class _TambahBarangState extends State<TambahBarang> {
       setState(() {
         isLoading = false;
       });
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const StokPage(),
-        ),
-      );
+      Navigator.pop(context);
+      // Navigator.pushReplacement(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) => const StokPage(),
+      //   ),
+      // );
     } catch (e) {
       throw new FormatException(e.toString());
     }
