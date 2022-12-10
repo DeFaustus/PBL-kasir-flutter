@@ -30,7 +30,6 @@ class _StokHomePageState extends State<StokHomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -53,7 +52,7 @@ class _StokHomePageState extends State<StokHomePage> {
                         controller: cariController,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
-                          labelText: 'Masukkan Kode Barang/Nama Barang',
+                          labelText: 'Masukkan Nama Barang',
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -63,7 +62,7 @@ class _StokHomePageState extends State<StokHomePage> {
                         },
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        padding: const EdgeInsets.symmetric(vertical: 7),
                         child: ElevatedButton(
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
@@ -80,135 +79,180 @@ class _StokHomePageState extends State<StokHomePage> {
                 ),
               ),
             )),
-        Expanded(
-          child: ListView.builder(
-            itemCount: 10,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(10),
-                child: Card(
-                    elevation: 3,
-                    child: Padding(
+        FutureBuilder<Response>(
+          future: getData(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Expanded(
+                child: ListView.builder(
+                  itemCount: snapshot.data!.data.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
                       padding: const EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Celana Jeans Ukuran Xl",
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: const [
-                              SizedBox(
-                                width: 80,
-                              ),
-                              Text(
-                                'Harga Beli : ',
-                                style: TextStyle(
-                                  fontSize: 16,
+                      child: Card(
+                          elevation: 3,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  snapshot.data!.data[index].nama.toString(),
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
                                 ),
-                              ),
-                              Text(
-                                '5000',
-                                style: TextStyle(
-                                  fontSize: 16,
+                                SizedBox(
+                                  height: 20,
                                 ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: const [
-                              SizedBox(
-                                width: 80,
-                              ),
-                              Text(
-                                'Harga Jual : ',
-                                style: TextStyle(
-                                  fontSize: 16,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    SizedBox(
+                                      width: 80,
+                                    ),
+                                    Text(
+                                      'Harga Beli : ',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    Text(
+                                      snapshot.data!.data[index].harga_beli
+                                          .toString(),
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              Text(
-                                '7000',
-                                style: TextStyle(
-                                  fontSize: 16,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    SizedBox(
+                                      width: 80,
+                                    ),
+                                    Text(
+                                      'Harga Jual : ',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    Text(
+                                      snapshot.data!.data[index].harga_jual
+                                          .toString(),
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: const [
-                              SizedBox(
-                                width: 80,
-                              ),
-                              Text(
-                                'Supplier      :',
-                                style: TextStyle(
-                                  fontSize: 16,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    SizedBox(
+                                      width: 80,
+                                    ),
+                                    Text(
+                                      'Stok          :',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    Text(
+                                      snapshot.data!.data[index].stok
+                                          .toString(),
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              Text(
-                                'Prayit',
-                                style: TextStyle(
-                                  fontSize: 16,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    SizedBox(
+                                      width: 80,
+                                    ),
+                                    Text(
+                                      'Supplier      :',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    Text(
+                                      snapshot.data!.data[index].supplier
+                                          .nama_supplier
+                                          .toString(),
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: const [
-                              SizedBox(
-                                width: 80,
-                              ),
-                              Text(
-                                'Stok          :',
-                                style: TextStyle(
-                                  fontSize: 16,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    SizedBox(
+                                      width: 80,
+                                    ),
+                                    Text(
+                                      'Kategori      :',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    Text(
+                                      snapshot.data!.data[index].kategori.nama
+                                          .toString(),
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              Text(
-                                '100',
-                                style: TextStyle(
-                                  fontSize: 16,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    SizedBox(
+                                      width: 100,
+                                    ),
+                                    Icon(
+                                      Icons.edit,
+                                      color: Colors.yellow,
+                                      size: 30,
+                                    ),
+                                    Icon(
+                                      Icons.remove_circle,
+                                      color: Colors.red,
+                                      size: 30,
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {},
+                                      child: Text("Tambah Stok"),
+                                    )
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              SizedBox(
-                                width: 100,
-                              ),
-                              Icon(
-                                Icons.edit,
-                                color: Colors.yellow,
-                                size: 30,
-                              ),
-                              Icon(
-                                Icons.remove_circle,
-                                color: Colors.red,
-                                size: 30,
-                              ),
-                              ElevatedButton(
-                                onPressed: () {},
-                                child: Text("Tambah Stok"),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    )),
+                              ],
+                            ),
+                          )),
+                    );
+                  },
+                ),
               );
-            },
-          ),
+            } else if (snapshot.hasError) {
+              return Text("${snapshot.error}");
+            }
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          },
         ),
       ],
     );

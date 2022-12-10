@@ -1,7 +1,8 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:json_annotation/json_annotation.dart';
-import 'package:pbl_kasir/models/stok.dart';
+import 'package:pbl_kasir/models/kategori.dart';
+import 'package:pbl_kasir/models/supplier.dart';
 part 'barang.g.dart';
 
 @JsonSerializable(explicitToJson: true)
@@ -13,7 +14,9 @@ class Barang {
   int harga_jual;
   DateTime created_at;
   DateTime updated_at;
-  Stok stok;
+  int stok;
+  Kategori kategori;
+  Supplier supplier;
   Barang({
     required this.barang_id,
     required this.kategori_id,
@@ -23,6 +26,8 @@ class Barang {
     required this.created_at,
     required this.updated_at,
     required this.stok,
+    required this.kategori,
+    required this.supplier,
   });
   factory Barang.fromJson(Map<String, dynamic> json) => _$BarangFromJson(json);
   Map<String, dynamic> toJson() => _$BarangToJson(this);

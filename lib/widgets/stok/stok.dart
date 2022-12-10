@@ -27,7 +27,9 @@ class _StokPageState extends State<StokPage> {
               child: const TambahBarang(),
               type: PageTransitionType.leftToRight,
             ),
-          );
+          ).then((value) => setState(
+                () {},
+              ));
         },
         child: Icon(Icons.add),
       ),

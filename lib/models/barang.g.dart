@@ -14,7 +14,9 @@ Barang _$BarangFromJson(Map<String, dynamic> json) => Barang(
       harga_jual: json['harga_jual'] as int,
       created_at: DateTime.parse(json['created_at'] as String),
       updated_at: DateTime.parse(json['updated_at'] as String),
-      stok: Stok.fromJson(json['stok'] as Map<String, dynamic>),
+      stok: json['stok'] as int,
+      kategori: Kategori.fromJson(json['kategori'] as Map<String, dynamic>),
+      supplier: Supplier.fromJson(json['supplier'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$BarangToJson(Barang instance) => <String, dynamic>{
@@ -25,5 +27,7 @@ Map<String, dynamic> _$BarangToJson(Barang instance) => <String, dynamic>{
       'harga_jual': instance.harga_jual,
       'created_at': instance.created_at.toIso8601String(),
       'updated_at': instance.updated_at.toIso8601String(),
-      'stok': instance.stok.toJson(),
+      'stok': instance.stok,
+      'kategori': instance.kategori.toJson(),
+      'supplier': instance.supplier.toJson(),
     };
