@@ -8,24 +8,38 @@ import 'package:pbl_kasir/utils/base_url.dart';
 import 'package:http/http.dart' as http;
 import 'package:pbl_kasir/widgets/stok/stok.dart';
 
-class TambahBarang extends StatefulWidget {
-  const TambahBarang({super.key});
+class UpdateBarang extends StatefulWidget {
+  String barangId;
+  String kategoriId;
+  String supplierId;
+  String namaBarang;
+  String hargaJual;
+  String hargaBeli;
+  String stok;
+  UpdateBarang({
+    super.key,
+    required this.barangId,
+    required this.kategoriId,
+    required this.supplierId,
+    required this.namaBarang,
+    required this.hargaJual,
+    required this.hargaBeli,
+    required this.stok,
+  });
 
   @override
-  State<TambahBarang> createState() => _TambahBarangState();
+  State<UpdateBarang> createState() => UpdategState();
 }
 
-class _TambahBarangState extends State<TambahBarang> {
+class UpdategState extends State<UpdateBarang> {
   final _formKeyBarang = GlobalKey<FormState>();
-  String selectedValue = "";
-  String supplierId = "";
-  List<dynamic> listKategori = [];
-  List<dynamic> listSupplier = [];
   TextEditingController namaBarang = TextEditingController();
   TextEditingController hargaBeli = TextEditingController();
   TextEditingController hargaJual = TextEditingController();
   TextEditingController stok = TextEditingController();
   bool isLoading = false;
+  List<dynamic> listKategori = [];
+  List<dynamic> listSupplier = [];
   Future<void> getData() async {
     Uri urlKategori = Uri.parse(BaseUrl.url + '/kategori');
     Uri urlSupplier = Uri.parse(BaseUrl.url + '/supplier');
@@ -42,19 +56,19 @@ class _TambahBarangState extends State<TambahBarang> {
           });
       setState(() {
         listKategori = jsonDecode(responseKategori.body)['data'];
-        selectedValue = listKategori[0]['kategori_id'].toString();
+        // selectedValue = listKategori[0]['kategori_id'].toString();
         listSupplier = jsonDecode(responseSupplier.body)['data'];
-        supplierId = listSupplier[0]['supplier_id'].toString();
+        // supplierId = listSupplier[0]['supplier_id'].toString();
       });
     } catch (e) {
       print(e);
     }
   }
 
-  Future<void> tambahBarang() async {
+  Future<void> updateBarang() async {
     try {
-      Uri url = Uri.parse(BaseUrl.url + '/tambahbarang');
-      var response = await http.post(
+      Uri url = Uri.parse('${BaseUrl.url}/updateBarang/${widget.barangId}');
+      var response = await http.put(
         url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -62,8 +76,8 @@ class _TambahBarangState extends State<TambahBarang> {
         },
         body: jsonEncode(
           <String, String>{
-            'kategori_id': selectedValue,
-            'supplier_id': supplierId,
+            'kategori_id': widget.kategoriId,
+            'supplier_id': widget.supplierId,
             'nama': namaBarang.text,
             'harga_beli': hargaBeli.text,
             'harga_jual': hargaJual.text,
@@ -85,13 +99,17 @@ class _TambahBarangState extends State<TambahBarang> {
   void initState() {
     super.initState();
     getData();
+    namaBarang.text = widget.namaBarang;
+    hargaBeli.text = widget.hargaBeli;
+    hargaJual.text = widget.hargaJual;
+    stok.text = widget.stok;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Tambah Barang"),
+        title: Text("Ubah Barang"),
         centerTitle: true,
       ),
       body: isLoading == true
@@ -123,10 +141,10 @@ class _TambahBarangState extends State<TambahBarang> {
                                 }
                                 return null;
                               },
-                              value: selectedValue,
+                              value: widget.kategoriId,
                               onChanged: (String? newValue) {
                                 setState(() {
-                                  selectedValue = newValue!;
+                                  widget.kategoriId = newValue!;
                                 });
                               },
                               items: listKategori.map((item) {
@@ -152,10 +170,10 @@ class _TambahBarangState extends State<TambahBarang> {
                                 }
                                 return null;
                               },
-                              value: supplierId,
+                              value: widget.supplierId,
                               onChanged: (String? newValue) {
                                 setState(() {
-                                  supplierId = newValue!;
+                                  widget.supplierId = newValue!;
                                 });
                               },
                               items: listSupplier.map((item) {
@@ -241,10 +259,10 @@ class _TambahBarangState extends State<TambahBarang> {
                                   setState(() {
                                     isLoading = true;
                                   });
-                                  tambahBarang();
+                                  updateBarang();
                                 }
                               },
-                              child: const Text('Tambah Barang'),
+                              child: const Text('Update Barang'),
                             ),
                           ),
                         ],

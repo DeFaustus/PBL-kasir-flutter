@@ -77,16 +77,20 @@ class _HomePageState extends State<HomePage> {
           padding: EdgeInsets.zero,
           children: [
             _drawerHeader(Auth.name, Auth.email),
-            _drawerItem(
-              icon: Icons.catching_pokemon,
-              text: 'Kategori',
-              onTap: () => Navigator.pushNamed(context, '/kategori'),
-            ),
-            _drawerItem(
-              icon: Icons.people_alt,
-              text: 'Supplier',
-              onTap: () => print('Tap My Files'),
-            ),
+            Auth.isAdmin != true
+                ? SizedBox()
+                : _drawerItem(
+                    icon: Icons.catching_pokemon,
+                    text: 'Kategori',
+                    onTap: () => Navigator.pushNamed(context, '/kategori'),
+                  ),
+            Auth.isAdmin != true
+                ? SizedBox()
+                : _drawerItem(
+                    icon: Icons.people_alt,
+                    text: 'Supplier',
+                    onTap: () => print('Tap My Files'),
+                  ),
             _drawerItem(
               icon: Icons.logout,
               text: 'Log Out',

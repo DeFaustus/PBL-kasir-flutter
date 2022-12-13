@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -7,6 +9,7 @@ import 'package:pbl_kasir/models/response.dart';
 import 'package:pbl_kasir/utils/auth.dart';
 import 'package:pbl_kasir/utils/base_url.dart';
 import 'package:http/http.dart' as http;
+import 'package:pbl_kasir/widgets/stok/update_barang.dart';
 
 class StokPage extends StatefulWidget {
   const StokPage({super.key});
@@ -36,33 +39,34 @@ class _StokPageState extends State<StokPage> {
         centerTitle: true,
         elevation: 0,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            PageTransition(
-              child: const TambahBarang(),
-              type: PageTransitionType.leftToRight,
+      floatingActionButton: Auth.isAdmin != true
+          ? Container()
+          : FloatingActionButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  PageTransition(
+                    child: const TambahBarang(),
+                    type: PageTransitionType.leftToRight,
+                  ),
+                ).then((value) => setState(() {}));
+              },
+              child: Icon(Icons.add),
             ),
-          ).then((value) => setState(() {}));
-        },
-        child: Icon(Icons.add),
-      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       body: Column(
         children: [
           Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Card(
-                elevation: 5,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        TextFormField(
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Form(
+                  key: _formKey,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Expanded(
+                        child: TextFormField(
                           controller: cariController,
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
@@ -75,21 +79,30 @@ class _StokPageState extends State<StokPage> {
                             return null;
                           },
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 7),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('Mencari Data')),
-                                );
-                              }
-                            },
-                            child: const Text('Cari Barang'),
+                      ),
+                      GestureDetector(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Container(
+                            width: 70,
+                            height: 60,
+                            color: Theme.of(context).primaryColor,
+                            child: Icon(
+                              Icons.search_rounded,
+                              size: 30,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ],
-                    ),
+                        onTap: () {
+                          // if (_formKey.currentState!.validate()) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Mencari Data')),
+                          );
+                          // }
+                        },
+                      ),
+                    ],
                   ),
                 ),
               )),
@@ -230,29 +243,73 @@ class _StokPageState extends State<StokPage> {
                                       ),
                                     ],
                                   ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      SizedBox(
-                                        width: 100,
-                                      ),
-                                      Icon(
-                                        Icons.edit,
-                                        color: Colors.yellow,
-                                        size: 30,
-                                      ),
-                                      Icon(
-                                        Icons.remove_circle,
-                                        color: Colors.red,
-                                        size: 30,
-                                      ),
-                                      ElevatedButton(
-                                        onPressed: () {},
-                                        child: Text("Tambah Stok"),
-                                      )
-                                    ],
-                                  ),
+                                  Auth.isAdmin != true
+                                      ? SizedBox()
+                                      : Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            SizedBox(
+                                              width: 100,
+                                            ),
+                                            GestureDetector(
+                                              child: Icon(
+                                                Icons.edit,
+                                                color: Colors.yellow,
+                                                size: 30,
+                                              ),
+                                              onTap: () => Navigator.push(
+                                                context,
+                                                PageTransition(
+                                                    child: UpdateBarang(
+                                                      barangId: snapshot.data!
+                                                          .data[index].barang_id
+                                                          .toString(),
+                                                      kategoriId: snapshot
+                                                          .data!
+                                                          .data[index]
+                                                          .kategori
+                                                          .kategori_id
+                                                          .toString(),
+                                                      supplierId: snapshot
+                                                          .data!
+                                                          .data[index]
+                                                          .supplier
+                                                          .supplier_id
+                                                          .toString(),
+                                                      namaBarang: snapshot.data!
+                                                          .data[index].nama,
+                                                      hargaBeli: snapshot
+                                                          .data!
+                                                          .data[index]
+                                                          .harga_beli
+                                                          .toString(),
+                                                      hargaJual: snapshot
+                                                          .data!
+                                                          .data[index]
+                                                          .harga_jual
+                                                          .toString(),
+                                                      stok: snapshot.data!
+                                                          .data[index].stok
+                                                          .toString(),
+                                                    ),
+                                                    type: PageTransitionType
+                                                        .leftToRight),
+                                              ).then((value) => setState(
+                                                    () {},
+                                                  )),
+                                            ),
+                                            Icon(
+                                              Icons.remove_circle,
+                                              color: Colors.red,
+                                              size: 30,
+                                            ),
+                                            ElevatedButton(
+                                              onPressed: () {},
+                                              child: Text("Tambah Stok"),
+                                            )
+                                          ],
+                                        ),
                                 ],
                               ),
                             )),
@@ -263,9 +320,9 @@ class _StokPageState extends State<StokPage> {
               } else if (snapshot.hasError) {
                 return Text("${snapshot.error}");
               }
-              return Center(
-                child: CircularProgressIndicator(),
-              );
+              return Container(
+                  margin: EdgeInsets.only(top: 100),
+                  child: CircularProgressIndicator());
             },
           ),
         ],
