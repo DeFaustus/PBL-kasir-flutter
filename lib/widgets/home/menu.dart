@@ -94,7 +94,7 @@ class Menu extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  "Data Karyawan",
+                  "Daftar Supplier",
                   style: TextStyle(
                     fontSize: 18,
                     color: Theme.of(context).primaryColor,
@@ -110,14 +110,10 @@ class Menu extends StatelessWidget {
                   size: 120,
                   color: Colors.blue,
                 ),
-                // Image.asset(
-                //   'assets/logo/pembelian.png',
-                //   fit: BoxFit.cover,
-                // ),
               ],
             ),
           ),
-          onTap: () => Navigator.pushNamed(context, '/karyawan'),
+          onTap: () => Navigator.pushNamed(context, '/supplier'),
         ),
         GestureDetector(
           child: Container(

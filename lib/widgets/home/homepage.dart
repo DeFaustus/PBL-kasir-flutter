@@ -88,8 +88,8 @@ class _HomePageState extends State<HomePage> {
                 ? SizedBox()
                 : _drawerItem(
                     icon: Icons.people_alt,
-                    text: 'Supplier',
-                    onTap: () => print('Tap My Files'),
+                    text: 'Karyawan',
+                    onTap: () => Navigator.pushNamed(context, '/karyawan'),
                   ),
             _drawerItem(
               icon: Icons.logout,

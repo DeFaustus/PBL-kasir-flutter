@@ -1,4 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:pbl_kasir/utils/auth.dart';
+import 'package:pbl_kasir/models/karyawan_response.dart';
+import 'package:pbl_kasir/utils/base_url.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+import 'package:pbl_kasir/widgets/karyawan/tambah_karyawan.dart';
 
 class Karyawan extends StatefulWidget {
   const Karyawan({super.key});
@@ -8,15 +16,100 @@ class Karyawan extends StatefulWidget {
 }
 
 class _KaryawanState extends State<Karyawan> {
+  Future<KaryawanResponse> getKategori() async {
+    try {
+      Uri url = Uri.parse(BaseUrl.url + '/karyawan');
+      var response = await http.get(url, headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': Auth.token
+      });
+      print(response.body);
+      return KaryawanResponse.fromJson(jsonDecode(response.body));
+    } catch (e) {
+      throw new FormatException(e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Data Karyawan"),
+        title: const Text("Karyawan"),
         centerTitle: true,
       ),
-      body: Container(
-        child: Text("sfds"),
+      floatingActionButton: Auth.isAdmin != true
+          ? Container()
+          : FloatingActionButton(
+              onPressed: () => Navigator.push(
+                context,
+                PageTransition(
+                    child: const TambahKaryawan(),
+                    type: PageTransitionType.leftToRight),
+              ).then((value) => setState(() {})),
+              child: Icon(Icons.add),
+            ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      body: FutureBuilder<KaryawanResponse>(
+        future: getKategori(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return ListView.builder(
+              itemCount: snapshot.data!.data.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Card(
+                      elevation: 3,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              snapshot.data!.data[index].name,
+                              style: const TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              "Email : ${snapshot.data!.data[index].email}",
+                              style: const TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Auth.isAdmin != true
+                                ? Container()
+                                : Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: const [
+                                      SizedBox(
+                                        width: 100,
+                                      ),
+                                      Icon(
+                                        Icons.edit,
+                                        color: Colors.yellow,
+                                        size: 30,
+                                      ),
+                                      Icon(
+                                        Icons.remove_circle,
+                                        color: Colors.red,
+                                        size: 30,
+                                      ),
+                                    ],
+                                  ),
+                          ],
+                        ),
+                      )),
+                );
+              },
+            );
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          }
+          return Center(child: const CircularProgressIndicator());
+        },
       ),
     );
   }

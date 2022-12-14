@@ -11,9 +11,9 @@ import 'package:pbl_kasir/widgets/laporan/laporan_penjualan.dart';
 import 'package:pbl_kasir/widgets/laporan/laporan_produk.dart';
 import 'package:pbl_kasir/widgets/laporan/laporan_stok.dart';
 import 'package:pbl_kasir/widgets/penjualan/penjualan.dart';
-import 'package:pbl_kasir/widgets/penjualan/tambah_produk.dart';
 import 'package:pbl_kasir/widgets/splash_screen.dart';
 import 'package:pbl_kasir/widgets/stok/stok.dart';
+import 'package:pbl_kasir/widgets/supplier/supplier.dart';
 
 void main() {
   runApp(const MyApp());
@@ -75,13 +75,6 @@ class MyApp extends StatelessWidget {
               childCurrent: this,
               duration: Duration(milliseconds: 250),
             );
-          case '/tambahproduk':
-            return PageTransition(
-              child: const TambahProduk(),
-              type: PageTransitionType.leftToRight,
-              childCurrent: this,
-              duration: Duration(milliseconds: 250),
-            );
           case '/penjualan':
             return PageTransition(
               child: const Penjualan(),
@@ -113,6 +106,13 @@ class MyApp extends StatelessWidget {
           case '/kategori':
             return PageTransition(
               child: const Kategori(),
+              type: PageTransitionType.leftToRight,
+              childCurrent: this,
+              duration: Duration(milliseconds: 250),
+            );
+          case '/supplier':
+            return PageTransition(
+              child: const Supplier(),
               type: PageTransitionType.leftToRight,
               childCurrent: this,
               duration: Duration(milliseconds: 250),

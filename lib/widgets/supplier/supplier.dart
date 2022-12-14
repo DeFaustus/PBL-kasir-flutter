@@ -1,31 +1,29 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:pbl_kasir/models/kategori_response.dart';
+import 'package:pbl_kasir/models/supplier_response.dart';
 import 'package:pbl_kasir/utils/auth.dart';
 import 'package:pbl_kasir/utils/base_url.dart';
 import 'package:http/http.dart' as http;
-import 'package:pbl_kasir/widgets/kategori/tambah_kategori.dart';
+import 'package:pbl_kasir/widgets/supplier/tambah_supplier.dart';
 
-class Kategori extends StatefulWidget {
-  const Kategori({super.key});
+class Supplier extends StatefulWidget {
+  const Supplier({super.key});
 
   @override
-  State<Kategori> createState() => _KategoriState();
+  State<Supplier> createState() => _SupplierState();
 }
 
-class _KategoriState extends State<Kategori> {
-  Future<KategoriResponse> getKategori() async {
+class _SupplierState extends State<Supplier> {
+  Future<SupplierResponse> getKategori() async {
     try {
-      Uri url = Uri.parse(BaseUrl.url + '/kategori');
+      Uri url = Uri.parse(BaseUrl.url + '/supplier');
       var response = await http.get(url, headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': Auth.token
       });
-      return KategoriResponse.fromJson(jsonDecode(response.body));
+      return SupplierResponse.fromJson(jsonDecode(response.body));
     } catch (e) {
       throw new FormatException(e.toString());
     }
@@ -35,7 +33,7 @@ class _KategoriState extends State<Kategori> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Kategori"),
+        title: const Text("Supplier"),
         centerTitle: true,
       ),
       floatingActionButton: Auth.isAdmin != true
@@ -44,13 +42,13 @@ class _KategoriState extends State<Kategori> {
               onPressed: () => Navigator.push(
                 context,
                 PageTransition(
-                    child: const TambahKategori(),
+                    child: const TambahSupplier(),
                     type: PageTransitionType.leftToRight),
               ).then((value) => setState(() {})),
               child: Icon(Icons.add),
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: FutureBuilder<KategoriResponse>(
+      body: FutureBuilder<SupplierResponse>(
         future: getKategori(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -67,7 +65,7 @@ class _KategoriState extends State<Kategori> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              snapshot.data!.data[index].nama,
+                              snapshot.data!.data[index].nama_supplier,
                               style: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
