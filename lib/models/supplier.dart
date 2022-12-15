@@ -7,13 +7,12 @@ part 'supplier.g.dart';
 class Supplier {
   int supplier_id;
   String nama_supplier;
-  DateTime created_at;
-  DateTime updated_at;
-  Supplier(
-      {required this.supplier_id,
-      required this.nama_supplier,
-      required this.created_at,
-      required this.updated_at});
+  // DateTime created_at;
+  // DateTime updated_at;
+  Supplier({
+    required this.supplier_id,
+    required this.nama_supplier,
+  });
   factory Supplier.fromJson(Map<String, dynamic> json) =>
       _$SupplierFromJson(json);
   Map<String, dynamic> toJson() => _$SupplierToJson(this);

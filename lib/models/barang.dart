@@ -7,13 +7,13 @@ part 'barang.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Barang {
-  int barang_id;
+  String barang_id;
   int kategori_id;
   String nama;
   int harga_beli;
   int harga_jual;
-  DateTime created_at;
-  DateTime updated_at;
+  // DateTime created_at;
+  // DateTime updated_at;
   int stok;
   Kategori kategori;
   Supplier supplier;
@@ -23,8 +23,6 @@ class Barang {
     required this.nama,
     required this.harga_beli,
     required this.harga_jual,
-    required this.created_at,
-    required this.updated_at,
     required this.stok,
     required this.kategori,
     required this.supplier,

@@ -7,13 +7,12 @@ part 'kategori.g.dart';
 class Kategori {
   int kategori_id;
   String nama;
-  DateTime created_at;
-  DateTime updated_at;
-  Kategori(
-      {required this.kategori_id,
-      required this.nama,
-      required this.created_at,
-      required this.updated_at});
+  // DateTime created_at;
+  // DateTime updated_at;
+  Kategori({
+    required this.kategori_id,
+    required this.nama,
+  });
   factory Kategori.fromJson(Map<String, dynamic> json) =>
       _$KategoriFromJson(json);
   Map<String, dynamic> toJson() => _$KategoriToJson(this);

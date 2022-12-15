@@ -7,13 +7,11 @@ part of 'barang.dart';
 // **************************************************************************
 
 Barang _$BarangFromJson(Map<String, dynamic> json) => Barang(
-      barang_id: json['barang_id'] as int,
+      barang_id: json['barang_id'] as String,
       kategori_id: json['kategori_id'] as int,
       nama: json['nama'] as String,
       harga_beli: json['harga_beli'] as int,
       harga_jual: json['harga_jual'] as int,
-      created_at: DateTime.parse(json['created_at'] as String),
-      updated_at: DateTime.parse(json['updated_at'] as String),
       stok: json['stok'] as int,
       kategori: Kategori.fromJson(json['kategori'] as Map<String, dynamic>),
       supplier: Supplier.fromJson(json['supplier'] as Map<String, dynamic>),
@@ -25,8 +23,6 @@ Map<String, dynamic> _$BarangToJson(Barang instance) => <String, dynamic>{
       'nama': instance.nama,
       'harga_beli': instance.harga_beli,
       'harga_jual': instance.harga_jual,
-      'created_at': instance.created_at.toIso8601String(),
-      'updated_at': instance.updated_at.toIso8601String(),
       'stok': instance.stok,
       'kategori': instance.kategori.toJson(),
       'supplier': instance.supplier.toJson(),

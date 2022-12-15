@@ -9,6 +9,7 @@ import 'package:pbl_kasir/models/response.dart';
 import 'package:pbl_kasir/utils/auth.dart';
 import 'package:pbl_kasir/utils/base_url.dart';
 import 'package:http/http.dart' as http;
+import 'package:pbl_kasir/widgets/stok/tambah_stok.dart';
 import 'package:pbl_kasir/widgets/stok/update_barang.dart';
 
 class StokPage extends StatefulWidget {
@@ -22,7 +23,6 @@ class _StokPageState extends State<StokPage> {
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
   TextEditingController cariController = TextEditingController();
-
   Future<Response> getData() async {
     Uri url;
     if (cariController.text.isEmpty) {
@@ -103,6 +103,9 @@ class _StokPageState extends State<StokPage> {
                                   return 'Tidak Boleh Kosong';
                                 }
                                 return null;
+                              },
+                              onChanged: (value) {
+                                setState(() {});
                               },
                             ),
                           ),
@@ -403,7 +406,22 @@ class _StokPageState extends State<StokPage> {
                                                     },
                                                   ),
                                                   ElevatedButton(
-                                                    onPressed: () {},
+                                                    onPressed: () {
+                                                      Navigator.push(
+                                                        context,
+                                                        PageTransition(
+                                                            child: TambahStok(
+                                                                id: snapshot
+                                                                    .data!
+                                                                    .data[index]
+                                                                    .barang_id),
+                                                            type: PageTransitionType
+                                                                .leftToRight),
+                                                      ).then(
+                                                          (value) => setState(
+                                                                () {},
+                                                              ));
+                                                    },
                                                     child: Text("Tambah Stok"),
                                                   )
                                                 ],
