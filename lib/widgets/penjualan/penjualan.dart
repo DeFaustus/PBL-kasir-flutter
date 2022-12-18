@@ -238,7 +238,22 @@ class _PenjualanState extends State<Penjualan>
                                                                   .data!
                                                                   .data[index]
                                                                   .harga_jual,
-                                                              jumlah: 1));
+                                                              stok: snapshot
+                                                                  .data!
+                                                                  .data[index]
+                                                                  .stok,
+                                                              jumlah: 1,
+                                                              total: 0));
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        SnackBar(
+                                                          content: Text(
+                                                              "Berhasil Tambah Transaksi"),
+                                                          backgroundColor:
+                                                              Colors.green,
+                                                        ),
+                                                      );
                                                     });
                                                   },
                                                   child:

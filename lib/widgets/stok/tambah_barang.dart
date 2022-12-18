@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:pbl_kasir/utils/auth.dart';
@@ -51,6 +52,14 @@ class _TambahBarangState extends State<TambahBarang> {
     }
   }
 
+  String generateRandomString(int len) {
+    var r = Random();
+    const _chars =
+        'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    return List.generate(len, (index) => _chars[r.nextInt(_chars.length)])
+        .join();
+  }
+
   Future<void> tambahBarang() async {
     try {
       Uri url = Uri.parse(BaseUrl.url + '/tambahbarang');
@@ -62,6 +71,7 @@ class _TambahBarangState extends State<TambahBarang> {
         },
         body: jsonEncode(
           <String, String>{
+            'barang_id': 'BRG0${generateRandomString(3)}',
             'kategori_id': selectedValue,
             'supplier_id': supplierId,
             'nama': namaBarang.text,

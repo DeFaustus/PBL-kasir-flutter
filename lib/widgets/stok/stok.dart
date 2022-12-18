@@ -57,7 +57,7 @@ class _StokPageState extends State<StokPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Stok"),
+        title: Text("Barang"),
         centerTitle: true,
         elevation: 0,
       ),

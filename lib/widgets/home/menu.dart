@@ -61,7 +61,7 @@ class Menu extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  "Stok",
+                  "Barang",
                   style: TextStyle(
                     fontSize: 18,
                     color: Theme.of(context).primaryColor,
