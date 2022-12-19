@@ -53,7 +53,6 @@ class _CheckOutState extends State<CheckOut> {
   void initState() {
     super.initState();
     getTotal();
-    print(total);
   }
 
   @override
@@ -65,7 +64,7 @@ class _CheckOutState extends State<CheckOut> {
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: Container(
-          child: Column(children: [
+          child: ListView(children: [
             SizedBox(
               height: 20,
             ),
