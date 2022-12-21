@@ -4,7 +4,6 @@ import 'header_pendapatan.dart';
 import 'menu.dart';
 
 class BodyPage extends StatelessWidget {
-  final int totalHariIni = 0;
   const BodyPage({super.key});
 
   @override
@@ -15,7 +14,6 @@ class BodyPage extends StatelessWidget {
         child: Column(
           children: [
             HeaderPendapatan(
-              pendapatan: totalHariIni,
               size: size,
             ),
             const Menu()

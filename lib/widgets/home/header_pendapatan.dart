@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
 class HeaderPendapatan extends StatelessWidget {
-  final int pendapatan;
   final Size size;
-  const HeaderPendapatan(
-      {super.key, required this.pendapatan, required this.size});
-
+  HeaderPendapatan({super.key, required this.size});
+  int pendapatan = 0;
   @override
   Widget build(BuildContext context) {
     return Container(

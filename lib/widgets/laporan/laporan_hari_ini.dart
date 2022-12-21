@@ -25,7 +25,6 @@ class _LaporanPenjualanHariIniState extends State<LaporanPenjualanHariIni> {
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': Auth.token
       });
-      print(response.body);
       return HistoryResponse.fromJson(jsonDecode(response.body));
     } catch (e) {
       throw new FormatException(e.toString());

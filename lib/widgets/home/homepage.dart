@@ -26,12 +26,12 @@ class _HomePageState extends State<HomePage> {
         'Authorization': Auth.token
       });
       var json = jsonDecode(response.body);
-      print(Auth.token);
+      // print(Auth.token);
       setState(() {
         Auth.name = json['name'];
         Auth.email = json['email'];
       });
-      print(Auth.isAdmin);
+      // print(Auth.isAdmin);
     } catch (e) {
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (BuildContext context) => LoginPage()));
@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
 
   logout() async {
     final prefs = await SharedPreferences.getInstance();
-    final success = await prefs.remove('token');
+    await prefs.remove('token');
     await prefs.remove('name');
     await prefs.remove('email');
     await prefs.remove('isAdmin');
