@@ -8,8 +8,6 @@ import 'package:pbl_kasir/widgets/kategori/kategori.dart';
 import 'package:pbl_kasir/widgets/laporan/laporan.dart';
 import 'package:pbl_kasir/widgets/laporan/laporan_pembelian.dart';
 import 'package:pbl_kasir/widgets/laporan/laporan_penjualan.dart';
-import 'package:pbl_kasir/widgets/laporan/laporan_produk.dart';
-import 'package:pbl_kasir/widgets/laporan/laporan_stok.dart';
 import 'package:pbl_kasir/widgets/penjualan/penjualan.dart';
 import 'package:pbl_kasir/widgets/splash_screen.dart';
 import 'package:pbl_kasir/widgets/stok/stok.dart';
@@ -44,20 +42,6 @@ class MyApp extends StatelessWidget {
             return PageTransition(
               child: const HomePage(),
               type: PageTransitionType.bottomToTop,
-              childCurrent: this,
-              duration: Duration(milliseconds: 250),
-            );
-          case '/laporanproduk':
-            return PageTransition(
-              child: const LaporanProduk(),
-              type: PageTransitionType.leftToRight,
-              childCurrent: this,
-              duration: Duration(milliseconds: 250),
-            );
-          case '/laporanstok':
-            return PageTransition(
-              child: const LaporanStok(),
-              type: PageTransitionType.leftToRight,
               childCurrent: this,
               duration: Duration(milliseconds: 250),
             );

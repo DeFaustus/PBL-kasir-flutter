@@ -9,6 +9,7 @@ import 'package:pbl_kasir/utils/auth.dart';
 import 'package:pbl_kasir/utils/base_url.dart';
 import 'package:http/http.dart' as http;
 import 'package:pbl_kasir/widgets/kategori/tambah_kategori.dart';
+import 'package:pbl_kasir/widgets/kategori/update_kategori.dart';
 
 class Kategori extends StatefulWidget {
   const Kategori({super.key});
@@ -18,6 +19,8 @@ class Kategori extends StatefulWidget {
 }
 
 class _KategoriState extends State<Kategori> {
+  bool isLoading = false;
+
   Future<KategoriResponse> getKategori() async {
     try {
       Uri url = Uri.parse(BaseUrl.url + '/kategori');
@@ -26,6 +29,22 @@ class _KategoriState extends State<Kategori> {
         'Authorization': Auth.token
       });
       return KategoriResponse.fromJson(jsonDecode(response.body));
+    } catch (e) {
+      throw new FormatException(e.toString());
+    }
+  }
+
+  Future<void> hapus(String id) async {
+    Uri url = Uri.parse('${BaseUrl.url}/hapuskategori/$id');
+    try {
+      var response = await http.delete(url, headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': Auth.token
+      });
+      print(response.body);
+      setState(() {
+        isLoading = false;
+      });
     } catch (e) {
       throw new FormatException(e.toString());
     }
@@ -79,19 +98,91 @@ class _KategoriState extends State<Kategori> {
                                 : Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
-                                    children: const [
+                                    children: [
                                       SizedBox(
                                         width: 100,
                                       ),
-                                      Icon(
-                                        Icons.edit,
-                                        color: Colors.yellow,
-                                        size: 30,
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                                  context,
+                                                  PageTransition(
+                                                      child: UpdateKategori(
+                                                        id: snapshot
+                                                            .data!
+                                                            .data[index]
+                                                            .kategori_id,
+                                                        nama: snapshot.data!
+                                                            .data[index].nama,
+                                                      ),
+                                                      type: PageTransitionType
+                                                          .leftToRight))
+                                              .then((value) => setState(
+                                                    () {},
+                                                  ));
+                                        },
+                                        child: Icon(
+                                          Icons.edit,
+                                          color: Colors.yellow,
+                                          size: 30,
+                                        ),
                                       ),
-                                      Icon(
-                                        Icons.remove_circle,
-                                        color: Colors.red,
-                                        size: 30,
+                                      GestureDetector(
+                                        // ignore: prefer_const_constructors
+                                        child: Icon(
+                                          Icons.remove_circle,
+                                          color: Colors.red,
+                                          size: 30,
+                                        ),
+                                        onTap: () {
+                                          showDialog<void>(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title: const Text(
+                                                    'Apakah Anda Yakin ?'),
+                                                content: Text(
+                                                    'Akan Menghapus Barang ${snapshot.data!.data[index].nama}'),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    style: TextButton.styleFrom(
+                                                      textStyle:
+                                                          Theme.of(context)
+                                                              .textTheme
+                                                              .labelLarge,
+                                                    ),
+                                                    child: const Text('IYA'),
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        isLoading = true;
+                                                      });
+                                                      hapus(snapshot
+                                                          .data!
+                                                          .data[index]
+                                                          .kategori_id
+                                                          .toString());
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                  ),
+                                                  TextButton(
+                                                    style: TextButton.styleFrom(
+                                                      textStyle:
+                                                          Theme.of(context)
+                                                              .textTheme
+                                                              .labelLarge,
+                                                    ),
+                                                    child: const Text('TIDAK'),
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        },
                                       ),
                                     ],
                                   ),

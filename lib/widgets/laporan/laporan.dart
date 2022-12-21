@@ -29,16 +29,6 @@ class Laporan extends StatelessWidget {
               "Laporan Transaksi Pembelian",
               "/transaksipembelian",
             ),
-            buttonBuilder(
-              context,
-              "Laporan Stok Barang",
-              "/laporanstok",
-            ),
-            buttonBuilder(
-              context,
-              "Laporan Produk",
-              "/laporanproduk",
-            ),
           ],
         ),
       ),

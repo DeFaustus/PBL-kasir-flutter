@@ -224,36 +224,91 @@ class _PenjualanState extends State<Penjualan>
                                                 ElevatedButton(
                                                   onPressed: () {
                                                     setState(() {
-                                                      barangTransaksi.add(
-                                                          BarangTransaksi(
-                                                              barang_id: snapshot
+                                                      if (barangTransaksi
+                                                          .isEmpty) {
+                                                        barangTransaksi.add(
+                                                            BarangTransaksi(
+                                                                barang_id: snapshot
+                                                                    .data!
+                                                                    .data[index]
+                                                                    .barang_id,
+                                                                nama: snapshot
+                                                                    .data!
+                                                                    .data[index]
+                                                                    .nama,
+                                                                harga_jual: snapshot
+                                                                    .data!
+                                                                    .data[index]
+                                                                    .harga_jual,
+                                                                stok: snapshot
+                                                                    .data!
+                                                                    .data[index]
+                                                                    .stok,
+                                                                jumlah: 1,
+                                                                total: 0));
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                          SnackBar(
+                                                            content: Text(
+                                                                "Berhasil Tambah Transaksi"),
+                                                            backgroundColor:
+                                                                Colors.green,
+                                                          ),
+                                                        );
+                                                      } else {
+                                                        for (var element
+                                                            in barangTransaksi) {
+                                                          if (snapshot
                                                                   .data!
                                                                   .data[index]
-                                                                  .barang_id,
-                                                              nama: snapshot
-                                                                  .data!
-                                                                  .data[index]
-                                                                  .nama,
-                                                              harga_jual: snapshot
-                                                                  .data!
-                                                                  .data[index]
-                                                                  .harga_jual,
-                                                              stok: snapshot
-                                                                  .data!
-                                                                  .data[index]
-                                                                  .stok,
-                                                              jumlah: 1,
-                                                              total: 0));
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(
-                                                        SnackBar(
-                                                          content: Text(
-                                                              "Berhasil Tambah Transaksi"),
-                                                          backgroundColor:
-                                                              Colors.green,
-                                                        ),
-                                                      );
+                                                                  .barang_id ==
+                                                              element
+                                                                  .barang_id) {
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(
+                                                              SnackBar(
+                                                                content: Text(
+                                                                    "Barang Sudah Ada"),
+                                                                backgroundColor:
+                                                                    Colors.red,
+                                                              ),
+                                                            );
+                                                            return;
+                                                          }
+                                                        }
+                                                        barangTransaksi.add(
+                                                            BarangTransaksi(
+                                                                barang_id: snapshot
+                                                                    .data!
+                                                                    .data[index]
+                                                                    .barang_id,
+                                                                nama: snapshot
+                                                                    .data!
+                                                                    .data[index]
+                                                                    .nama,
+                                                                harga_jual: snapshot
+                                                                    .data!
+                                                                    .data[index]
+                                                                    .harga_jual,
+                                                                stok: snapshot
+                                                                    .data!
+                                                                    .data[index]
+                                                                    .stok,
+                                                                jumlah: 1,
+                                                                total: 0));
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                          SnackBar(
+                                                            content: Text(
+                                                                "Berhasil Tambah Transaksi"),
+                                                            backgroundColor:
+                                                                Colors.green,
+                                                          ),
+                                                        );
+                                                      }
                                                     });
                                                   },
                                                   child:
