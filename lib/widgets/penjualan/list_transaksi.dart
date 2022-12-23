@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pbl_kasir/models/barang_transaksi.dart';
+import 'package:pbl_kasir/utils/rupiah.dart';
 import 'package:pbl_kasir/widgets/penjualan/checkout.dart';
 
 class listTransaksi extends StatefulWidget {
@@ -145,8 +146,8 @@ class _listTransaksiState extends State<listTransaksi> {
                                   ),
                                 ),
                                 Text(
-                                  widget.barangTransaksi[index].harga_jual
-                                      .toString(),
+                                  Rupiah.format(
+                                      widget.barangTransaksi[index].harga_jual),
                                   style: const TextStyle(
                                     fontSize: 16,
                                   ),
@@ -214,6 +215,9 @@ class _listTransaksiState extends State<listTransaksi> {
                                 ),
                               ],
                             ),
+                            SizedBox(
+                              height: 10,
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -227,8 +231,8 @@ class _listTransaksiState extends State<listTransaksi> {
                                       fontWeight: FontWeight.bold),
                                 ),
                                 Text(
-                                  widget.barangTransaksi[index].total
-                                      .toString(),
+                                  Rupiah.format(
+                                      widget.barangTransaksi[index].total),
                                   style: TextStyle(
                                     fontSize: 16,
                                   ),

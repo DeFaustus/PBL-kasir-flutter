@@ -59,113 +59,110 @@ class _CheckOutState extends State<CheckOut> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("CheckOut"),
+        title: Text("Check Out"),
+        centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Container(
-          child: ListView(children: [
-            SizedBox(
-              height: 20,
+      body: ListView(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: DataTable(
+              columnSpacing: 23,
+              columns: const [
+                DataColumn(
+                  label: Expanded(
+                    child: Text(
+                      'Nama Barang',
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Expanded(
+                    child: Text(
+                      'Harga Barang',
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Expanded(
+                    child: Text(
+                      'Jumlah',
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Expanded(
+                    child: Text(
+                      'Total',
+                    ),
+                  ),
+                ),
+              ],
+              rows: widget.listBarang
+                  .map((e) => DataRow(cells: [
+                        DataCell(Text(e.nama)),
+                        DataCell(Text(e.harga_jual.toString())),
+                        DataCell(Text(e.jumlah.toString())),
+                        DataCell(Text(e.total.toString())),
+                      ]))
+                  .toList(),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text(
-                  "Nama Barang",
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                const Text(
+                  "Total Keseluruhan : ",
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                 ),
-                Text("Harga Barang",
-                    style:
-                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-                Text("Jumlah",
-                    style:
-                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-                Text("Total",
-                    style:
-                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                Text(
+                  total.toString(),
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                ),
               ],
             ),
-            Container(
-              height: 300,
-              child: ListView.builder(
-                itemCount: widget.listBarang.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(widget.listBarang[index].nama),
-                        Text(widget.listBarang[index].harga_jual.toString()),
-                        Text(widget.listBarang[index].jumlah.toString()),
-                        Text(widget.listBarang[index].total.toString()),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "Total Keseluruhan : ",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "Masukkan Uang : ",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                Expanded(
+                  child: Form(
+                    key: _formKey,
+                    child: TextFormField(
+                      keyboardType: TextInputType.number,
+                      controller: uang,
+                      decoration: InputDecoration(border: OutlineInputBorder()),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Wajib Di isi';
+                        } else if (total > int.parse(uang.text)) {
+                          return 'Uang kurang';
+                        }
+                        return null;
+                      },
                     ),
                   ),
-                  Text(
-                    "$total",
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-            SizedBox(
-              height: 25,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "Masukkan Uang : ",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Expanded(
-                    child: Form(
-                      key: _formKey,
-                      child: TextFormField(
-                        keyboardType: TextInputType.number,
-                        controller: uang,
-                        decoration:
-                            InputDecoration(border: OutlineInputBorder()),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Wajib Di isi';
-                          } else if (total > int.parse(uang.text)) {
-                            return 'Uang kurang';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            ElevatedButton(
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -187,8 +184,8 @@ class _CheckOutState extends State<CheckOut> {
               },
               child: const Text('Proses Transaksi'),
             ),
-          ]),
-        ),
+          ),
+        ],
       ),
     );
   }

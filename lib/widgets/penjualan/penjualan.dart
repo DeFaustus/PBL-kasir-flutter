@@ -7,6 +7,7 @@ import 'package:pbl_kasir/models/response.dart';
 import 'package:pbl_kasir/utils/auth.dart';
 import 'package:pbl_kasir/utils/base_url.dart';
 import 'package:http/http.dart' as http;
+import 'package:pbl_kasir/utils/rupiah.dart';
 import 'package:pbl_kasir/widgets/penjualan/list_transaksi.dart';
 import 'package:pbl_kasir/widgets/stok/update_barang.dart';
 import 'dart:convert';
@@ -162,9 +163,8 @@ class _PenjualanState extends State<Penjualan>
                                                   ),
                                                 ),
                                                 Text(
-                                                  snapshot.data!.data[index]
-                                                      .harga_beli
-                                                      .toString(),
+                                                  Rupiah.format(snapshot.data!
+                                                      .data[index].harga_beli),
                                                   style: TextStyle(
                                                     fontSize: 16,
                                                   ),
@@ -185,9 +185,8 @@ class _PenjualanState extends State<Penjualan>
                                                   ),
                                                 ),
                                                 Text(
-                                                  snapshot.data!.data[index]
-                                                      .harga_jual
-                                                      .toString(),
+                                                  Rupiah.format(snapshot.data!
+                                                      .data[index].harga_jual),
                                                   style: TextStyle(
                                                     fontSize: 16,
                                                   ),

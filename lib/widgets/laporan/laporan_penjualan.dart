@@ -8,6 +8,7 @@ import 'package:pbl_kasir/utils/auth.dart';
 import 'package:pbl_kasir/utils/base_url.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:pbl_kasir/utils/rupiah.dart';
 import 'package:pbl_kasir/widgets/laporan/laporan_hari_ini.dart';
 
 class LaporanPenjualan extends StatefulWidget {
@@ -20,14 +21,26 @@ class LaporanPenjualan extends StatefulWidget {
 class _LaporanPenjualanState extends State<LaporanPenjualan>
     with SingleTickerProviderStateMixin {
   late TabController controller = TabController(length: 2, vsync: this);
-
+  TextEditingController from = TextEditingController();
+  TextEditingController to = TextEditingController();
+  bool isDate = false;
   Future<HistoryResponse> getTransaksi() async {
     try {
-      Uri url = Uri.parse('${BaseUrl.url}/transaksi');
+      String queryParam = "";
+      if (from.text.isNotEmpty) {
+        isDate = true;
+        queryParam += "?from=${from.text}";
+      }
+      if (to.text.isNotEmpty) {
+        isDate = true;
+        queryParam += "&to=${to.text}";
+      }
+      Uri url = Uri.parse('${BaseUrl.url}/transaksi${queryParam}');
       var response = await http.get(url, headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': Auth.token
       });
+      print(isDate);
       return HistoryResponse.fromJson(jsonDecode(response.body));
     } catch (e) {
       throw new FormatException(e.toString());
@@ -38,6 +51,8 @@ class _LaporanPenjualanState extends State<LaporanPenjualan>
   void dispose() {
     super.dispose();
     controller.dispose();
+    from.dispose();
+    to.dispose();
   }
 
   @override
@@ -63,130 +78,220 @@ class _LaporanPenjualanState extends State<LaporanPenjualan>
           controller: controller,
           children: [
             LaporanPenjualanHariIni(),
-            FutureBuilder<HistoryResponse>(
-              future: getTransaksi(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return ListView.builder(
-                    itemCount: snapshot.data!.data.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Card(
-                            elevation: 3,
-                            child: Padding(
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextField(
+                            controller: from,
+                            decoration: InputDecoration(
+                                icon: Icon(Icons.calendar_today),
+                                labelText: "Dari Tanggal"),
+                            readOnly: true,
+                            onTap: () async {
+                              DateTime? pickedDate = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(1950),
+                                  lastDate: DateTime(2100));
+
+                              if (pickedDate != null) {
+                                String formattedDate =
+                                    DateFormat('yyyy-MM-dd').format(pickedDate);
+
+                                setState(() {
+                                  from.text =
+                                      formattedDate; //set output date to TextField value.
+                                });
+                              } else {}
+                            },
+                            onChanged: (value) {
+                              setState(() {});
+                            },
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextField(
+                            controller: to,
+                            decoration: InputDecoration(
+                                icon: Icon(Icons.calendar_today),
+                                labelText: "Ke Tanggal"),
+                            readOnly: true,
+                            onTap: () async {
+                              DateTime? pickedDate = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(1950),
+                                  lastDate: DateTime(2100));
+
+                              if (pickedDate != null) {
+                                String formattedDate =
+                                    DateFormat('yyyy-MM-dd').format(pickedDate);
+                                setState(() {
+                                  to.text =
+                                      formattedDate; //set output date to TextField value.
+                                });
+                              } else {}
+                            },
+                            onChanged: (value) {
+                              setState(() {});
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                isDate == true
+                    ? ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            isDate = false;
+                            from.text = "";
+                            to.text = "";
+                          });
+                        },
+                        child: Text("Reset"))
+                    : Container(),
+                Expanded(
+                  child: FutureBuilder<HistoryResponse>(
+                    future: getTransaksi(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return ListView.builder(
+                          itemCount: snapshot.data!.data.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
                               padding: const EdgeInsets.all(10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        snapshot
-                                            // ignore: prefer_const_constructors
-                                            .data!
-                                            .data[index]
-                                            .barang[0]
-                                            .nama,
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(
-                                        "X ${snapshot
-                                            // ignore: prefer_const_constructors
-                                            .data!.data[index].jumlah}",
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 15,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    // ignore: prefer_const_literals_to_create_immutables
-                                    children: [
-                                      SizedBox(
-                                        width: 40,
-                                      ),
-                                      Text(
-                                        "Tanggal : ",
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(
-                                        DateFormat('yyyy-MM-dd').format(snapshot
-                                            .data!.data[index].created_at),
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    // ignore: prefer_const_literals_to_create_immutables
-                                    children: [
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        "Total : ",
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(
-                                        snapshot.data!.data[index].total
-                                            .toString(),
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    // ignore: prefer_const_literals_to_create_immutables
-                                    children: [
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        "Laba : ",
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(
-                                        snapshot.data!.data[index].laba
-                                            .toString(),
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            )),
-                      );
+                              child: Card(
+                                  elevation: 3,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              snapshot
+                                                  // ignore: prefer_const_constructors
+                                                  .data!
+                                                  .data[index]
+                                                  .barang[0]
+                                                  .nama,
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            Text(
+                                              "X ${snapshot
+                                                  // ignore: prefer_const_constructors
+                                                  .data!.data[index].jumlah}",
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold),
+                                            )
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          // ignore: prefer_const_literals_to_create_immutables
+                                          children: [
+                                            SizedBox(
+                                              width: 40,
+                                            ),
+                                            Text(
+                                              "Tanggal : ",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            Text(
+                                              DateFormat('yyyy-MM-dd').format(
+                                                  snapshot.data!.data[index]
+                                                      .created_at),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          // ignore: prefer_const_literals_to_create_immutables
+                                          children: [
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              "Total : ",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            Text(
+                                              Rupiah.format(snapshot
+                                                  .data!.data[index].total),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          // ignore: prefer_const_literals_to_create_immutables
+                                          children: [
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              "Laba : ",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            Text(
+                                              Rupiah.format(snapshot
+                                                  .data!.data[index].laba),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  )),
+                            );
+                          },
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('${snapshot.error}');
+                      }
+                      return Center(child: const CircularProgressIndicator());
                     },
-                  );
-                } else if (snapshot.hasError) {
-                  return Text('${snapshot.error}');
-                }
-                return Center(child: const CircularProgressIndicator());
-              },
+                  ),
+                ),
+              ],
             ),
           ],
         ));

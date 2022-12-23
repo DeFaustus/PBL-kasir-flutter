@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:pbl_kasir/utils/rupiah.dart';
 import 'package:pbl_kasir/widgets/stok/tambah_barang.dart';
 import 'package:pbl_kasir/models/response.dart';
 import 'package:pbl_kasir/utils/auth.dart';
@@ -174,9 +175,8 @@ class _StokPageState extends State<StokPage> {
                                               ),
                                             ),
                                             Text(
-                                              snapshot
-                                                  .data!.data[index].harga_beli
-                                                  .toString(),
+                                              Rupiah.format(snapshot.data!
+                                                  .data[index].harga_beli),
                                               style: TextStyle(
                                                 fontSize: 16,
                                               ),
@@ -197,9 +197,8 @@ class _StokPageState extends State<StokPage> {
                                               ),
                                             ),
                                             Text(
-                                              snapshot
-                                                  .data!.data[index].harga_jual
-                                                  .toString(),
+                                              Rupiah.format(snapshot.data!
+                                                  .data[index].harga_jual),
                                               style: TextStyle(
                                                 fontSize: 16,
                                               ),

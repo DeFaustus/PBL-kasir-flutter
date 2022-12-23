@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Menu extends StatelessWidget {
+class Menu extends StatefulWidget {
   const Menu({super.key});
 
+  @override
+  State<Menu> createState() => _MenuState();
+}
+
+class _MenuState extends State<Menu> {
   @override
   Widget build(BuildContext context) {
     return GridView.count(
@@ -14,38 +19,37 @@ class Menu extends StatelessWidget {
       crossAxisCount: 2,
       children: <Widget>[
         GestureDetector(
-          child: Container(
-            padding: const EdgeInsets.all(8),
-            width: 110,
-            height: 110,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(
-                color: Theme.of(context).primaryColor,
-                width: 2,
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              width: 110,
+              height: 110,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: Theme.of(context).primaryColor,
+                  width: 2,
+                ),
+                color: Colors.white,
               ),
-              color: Colors.white,
-            ),
-            child: Column(
-              children: [
-                Text(
-                  "Kasir",
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.bold,
+              child: Column(
+                children: [
+                  Text(
+                    "Kasir",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Theme.of(context).primaryColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                Image.asset(
-                  'assets/logo/penjualan.png',
-                  fit: BoxFit.cover,
-                ),
-              ],
+                  Image.asset(
+                    'assets/logo/penjualan.png',
+                    fit: BoxFit.cover,
+                  ),
+                ],
+              ),
             ),
-          ),
-          onTap: () => Navigator.pushNamed(context, '/penjualan'),
-        ),
+            onTap: () => Navigator.pushNamed(context, '/penjualan')),
         GestureDetector(
           child: Container(
             padding: const EdgeInsets.all(8),
@@ -145,7 +149,7 @@ class Menu extends StatelessWidget {
               ],
             ),
           ),
-          onTap: () => Navigator.pushNamed(context, '/laporan'),
+          onTap: () => Navigator.pushNamed(context, '/transaksipenjualan'),
         ),
       ],
     );
