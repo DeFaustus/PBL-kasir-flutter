@@ -24,7 +24,7 @@ class _HeaderPendapatanState extends State<HeaderPendapatan> {
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': Auth.token
       });
-      print(jsonDecode(res.body));
+      print(res.body);
       return TotalHariIni.fromJson(jsonDecode(res.body));
     } catch (e) {
       throw new FormatException(e.toString());
@@ -79,7 +79,7 @@ class _HeaderPendapatanState extends State<HeaderPendapatan> {
                             ),
                           ),
                           Text(
-                            Rupiah.format(int.parse(snapshot.data!.data)),
+                            Rupiah.format(snapshot.data!.penjualan),
                             style: TextStyle(
                                 fontSize: 20,
                                 height: 2.5,

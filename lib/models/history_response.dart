@@ -7,9 +7,11 @@ part 'history_response.g.dart';
 @JsonSerializable(explicitToJson: true)
 class HistoryResponse {
   bool status;
+  int laba;
   List<History> data;
   HistoryResponse({
     required this.status,
+    required this.laba,
     required this.data,
   });
   factory HistoryResponse.fromJson(Map<String, dynamic> json) =>

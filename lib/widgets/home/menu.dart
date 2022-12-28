@@ -149,7 +149,7 @@ class _MenuState extends State<Menu> {
               ],
             ),
           ),
-          onTap: () => Navigator.pushNamed(context, '/transaksipenjualan'),
+          onTap: () => Navigator.pushNamed(context, '/laporan'),
         ),
       ],
     );

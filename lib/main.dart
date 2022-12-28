@@ -6,7 +6,7 @@ import 'package:pbl_kasir/widgets/home/homepage.dart';
 import 'package:pbl_kasir/widgets/karyawan/karyawan.dart';
 import 'package:pbl_kasir/widgets/kategori/kategori.dart';
 import 'package:pbl_kasir/widgets/laporan/laporan.dart';
-import 'package:pbl_kasir/widgets/laporan/laporan_pembelian.dart';
+import 'package:pbl_kasir/widgets/laporan/laporan_barang_masuk.dart';
 import 'package:pbl_kasir/widgets/laporan/laporan_penjualan.dart';
 import 'package:pbl_kasir/widgets/penjualan/penjualan.dart';
 import 'package:pbl_kasir/widgets/splash_screen.dart';
@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
             );
           case '/transaksipembelian':
             return PageTransition(
-              child: const LaporanPembelian(),
+              child: LaporanBarangMasuk(),
               type: PageTransitionType.leftToRight,
               childCurrent: this,
               duration: Duration(milliseconds: 250),

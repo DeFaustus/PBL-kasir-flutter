@@ -6,8 +6,8 @@ part 'total.g.dart';
 @JsonSerializable(explicitToJson: true)
 class TotalHariIni {
   bool status;
-  String data;
-  TotalHariIni({required this.status, required this.data});
+  int penjualan;
+  TotalHariIni({required this.status, required this.penjualan});
   factory TotalHariIni.fromJson(Map<String, dynamic> json) =>
       _$TotalHariIniFromJson(json);
   Map<String, dynamic> toJson() => _$TotalHariIniToJson(this);

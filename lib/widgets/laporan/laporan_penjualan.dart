@@ -40,7 +40,6 @@ class _LaporanPenjualanState extends State<LaporanPenjualan>
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': Auth.token
       });
-      print(isDate);
       return HistoryResponse.fromJson(jsonDecode(response.body));
     } catch (e) {
       throw new FormatException(e.toString());
@@ -108,6 +107,7 @@ class _LaporanPenjualanState extends State<LaporanPenjualan>
                                 setState(() {
                                   from.text =
                                       formattedDate; //set output date to TextField value.
+                                  isDate = true;
                                 });
                               } else {}
                             },
@@ -143,7 +143,9 @@ class _LaporanPenjualanState extends State<LaporanPenjualan>
                               } else {}
                             },
                             onChanged: (value) {
-                              setState(() {});
+                              setState(() {
+                                isDate = true;
+                              });
                             },
                           ),
                         ),
@@ -167,122 +169,165 @@ class _LaporanPenjualanState extends State<LaporanPenjualan>
                     future: getTransaksi(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        return ListView.builder(
-                          itemCount: snapshot.data!.data.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Card(
-                                  elevation: 3,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              snapshot
-                                                  // ignore: prefer_const_constructors
-                                                  .data!
-                                                  .data[index]
-                                                  .barang[0]
-                                                  .nama,
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            Text(
-                                              "X ${snapshot
-                                                  // ignore: prefer_const_constructors
-                                                  .data!.data[index].jumlah}",
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold),
-                                            )
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 15,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          // ignore: prefer_const_literals_to_create_immutables
-                                          children: [
-                                            SizedBox(
-                                              width: 40,
-                                            ),
-                                            Text(
-                                              "Tanggal : ",
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            Text(
-                                              DateFormat('yyyy-MM-dd').format(
-                                                  snapshot.data!.data[index]
-                                                      .created_at),
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          // ignore: prefer_const_literals_to_create_immutables
-                                          children: [
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Text(
-                                              "Total : ",
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            Text(
-                                              Rupiah.format(snapshot
-                                                  .data!.data[index].total),
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          // ignore: prefer_const_literals_to_create_immutables
-                                          children: [
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Text(
-                                              "Laba : ",
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            Text(
-                                              Rupiah.format(snapshot
-                                                  .data!.data[index].laba),
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
+                        return Column(
+                          children: [
+                            Card(
+                              elevation: 2,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      "Total Laba : ",
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
                                     ),
-                                  )),
-                            );
-                          },
+                                    Text(
+                                      Rupiah.format(snapshot.data!.laba),
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: ListView.builder(
+                                itemCount: snapshot.data!.data.length,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: Card(
+                                        elevation: 3,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(10),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    snapshot
+                                                        // ignore: prefer_const_constructors
+                                                        .data!
+                                                        .data[index]
+                                                        .barang[0]
+                                                        .nama,
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  Text(
+                                                    "X ${snapshot
+                                                        // ignore: prefer_const_constructors
+                                                        .data!.data[index].jumlah}",
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  )
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: 15,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                // ignore: prefer_const_literals_to_create_immutables
+                                                children: [
+                                                  SizedBox(
+                                                    width: 40,
+                                                  ),
+                                                  Text(
+                                                    "Tanggal : ",
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  Text(
+                                                    DateFormat('yyyy-MM-dd')
+                                                        .format(snapshot
+                                                            .data!
+                                                            .data[index]
+                                                            .created_at),
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                // ignore: prefer_const_literals_to_create_immutables
+                                                children: [
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Text(
+                                                    "Total : ",
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  Text(
+                                                    Rupiah.format(snapshot.data!
+                                                        .data[index].total),
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                // ignore: prefer_const_literals_to_create_immutables
+                                                children: [
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Text(
+                                                    "Laba : ",
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  Text(
+                                                    Rupiah.format(snapshot.data!
+                                                        .data[index].laba),
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        )),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
                         );
                       } else if (snapshot.hasError) {
                         return Text('${snapshot.error}');

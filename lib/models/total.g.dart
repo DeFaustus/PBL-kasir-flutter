@@ -8,11 +8,11 @@ part of 'total.dart';
 
 TotalHariIni _$TotalHariIniFromJson(Map<String, dynamic> json) => TotalHariIni(
       status: json['status'] as bool,
-      data: json['data'] as String,
+      penjualan: json['penjualan'] as int,
     );
 
 Map<String, dynamic> _$TotalHariIniToJson(TotalHariIni instance) =>
     <String, dynamic>{
       'status': instance.status,
-      'data': instance.data,
+      'penjualan': instance.penjualan,
     };
