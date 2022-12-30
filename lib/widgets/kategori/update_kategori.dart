@@ -21,7 +21,6 @@ class _UpdateKategoriState extends State<UpdateKategori> {
   Future<void> updateKategori() async {
     try {
       Uri url = Uri.parse('${BaseUrl.url}/updatekategori/${widget.id}');
-      print(url);
       var response = await http.put(
         url,
         headers: <String, String>{

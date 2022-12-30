@@ -36,7 +36,6 @@ class UpdategState extends State<UpdateBarang> {
   TextEditingController namaBarang = TextEditingController();
   TextEditingController hargaBeli = TextEditingController();
   TextEditingController hargaJual = TextEditingController();
-  TextEditingController stok = TextEditingController();
   bool isLoading = false;
   List<dynamic> listKategori = [];
   List<dynamic> listSupplier = [];
@@ -81,7 +80,6 @@ class UpdategState extends State<UpdateBarang> {
             'nama': namaBarang.text,
             'harga_beli': hargaBeli.text,
             'harga_jual': hargaJual.text,
-            'stok': stok.text
           },
         ),
       );
@@ -102,7 +100,6 @@ class UpdategState extends State<UpdateBarang> {
     namaBarang.text = widget.namaBarang;
     hargaBeli.text = widget.hargaBeli;
     hargaJual.text = widget.hargaJual;
-    stok.text = widget.stok;
   }
 
   @override
@@ -226,23 +223,6 @@ class UpdategState extends State<UpdateBarang> {
                               ),
                               keyboardType: TextInputType.number,
                               controller: hargaJual,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Tidak Boleh Kosong';
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10, bottom: 10),
-                            child: TextFormField(
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                labelText: 'Masukkan Jumlah Stok',
-                              ),
-                              controller: stok,
-                              keyboardType: TextInputType.number,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Tidak Boleh Kosong';

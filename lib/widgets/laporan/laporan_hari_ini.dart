@@ -145,8 +145,8 @@ class _LaporanPenjualanHariIniState extends State<LaporanPenjualanHariIni> {
                                           fontWeight: FontWeight.bold),
                                     ),
                                     Text(
-                                      snapshot.data!.data[index].total
-                                          .toString(),
+                                      Rupiah.format(
+                                          snapshot.data!.data[index].total),
                                       style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold),
@@ -168,8 +168,8 @@ class _LaporanPenjualanHariIniState extends State<LaporanPenjualanHariIni> {
                                           fontWeight: FontWeight.bold),
                                     ),
                                     Text(
-                                      snapshot.data!.data[index].laba
-                                          .toString(),
+                                      Rupiah.format(
+                                          snapshot.data!.data[index].laba),
                                       style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold),

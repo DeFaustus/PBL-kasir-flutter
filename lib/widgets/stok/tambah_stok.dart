@@ -47,7 +47,7 @@ class _TambahStokState extends State<TambahStok> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Tambah Kategori"),
+        title: const Text("Tambah Stok"),
         centerTitle: true,
       ),
       body: isLoading == true

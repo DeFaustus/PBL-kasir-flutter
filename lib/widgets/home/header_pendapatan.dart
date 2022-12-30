@@ -24,10 +24,9 @@ class _HeaderPendapatanState extends State<HeaderPendapatan> {
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': Auth.token
       });
-      print(res.body);
       return TotalHariIni.fromJson(jsonDecode(res.body));
     } catch (e) {
-      throw new FormatException(e.toString());
+      throw FormatException(e.toString());
     }
   }
 

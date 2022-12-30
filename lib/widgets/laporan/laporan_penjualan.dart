@@ -24,6 +24,11 @@ class _LaporanPenjualanState extends State<LaporanPenjualan>
   TextEditingController from = TextEditingController();
   TextEditingController to = TextEditingController();
   bool isDate = false;
+  List<dynamic> listKategori = [];
+  String selectedkategori = "";
+  bool isKategori = false;
+  var client = http.Client();
+
   Future<HistoryResponse> getTransaksi() async {
     try {
       String queryParam = "";
@@ -35,12 +40,36 @@ class _LaporanPenjualanState extends State<LaporanPenjualan>
         isDate = true;
         queryParam += "&to=${to.text}";
       }
+      if (isKategori) {
+        if (from.text.isEmpty || to.text.isEmpty) {
+          queryParam += "?kategori=$selectedkategori";
+        } else {
+          queryParam += "&kategori=$selectedkategori";
+        }
+      }
       Uri url = Uri.parse('${BaseUrl.url}/transaksi${queryParam}');
-      var response = await http.get(url, headers: <String, String>{
+      var response = await client.get(url, headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': Auth.token
       });
       return HistoryResponse.fromJson(jsonDecode(response.body));
+    } catch (e) {
+      throw new FormatException(e.toString());
+    }
+  }
+
+  Future<void> getKategori() async {
+    Uri urlKategori = Uri.parse('${BaseUrl.url}/kategori');
+    try {
+      var responseKategori = await client.get(urlKategori,
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': Auth.token
+          });
+      setState(() {
+        listKategori = jsonDecode(responseKategori.body)['data'];
+        selectedkategori = listKategori[0]['nama'].toString();
+      });
     } catch (e) {
       throw new FormatException(e.toString());
     }
@@ -52,6 +81,12 @@ class _LaporanPenjualanState extends State<LaporanPenjualan>
     controller.dispose();
     from.dispose();
     to.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getKategori();
   }
 
   @override
@@ -86,7 +121,7 @@ class _LaporanPenjualanState extends State<LaporanPenjualan>
                     children: [
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(6),
                           child: TextField(
                             controller: from,
                             decoration: InputDecoration(
@@ -119,7 +154,7 @@ class _LaporanPenjualanState extends State<LaporanPenjualan>
                       ),
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(6),
                           child: TextField(
                             controller: to,
                             decoration: InputDecoration(
@@ -153,11 +188,64 @@ class _LaporanPenjualanState extends State<LaporanPenjualan>
                     ],
                   ),
                 ),
+                isKategori == false
+                    ? TextButton(
+                        onPressed: () {
+                          setState(() {
+                            isKategori = true;
+                          });
+                        },
+                        child: Text("Tampilkan Kategori"))
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 10, right: 10, top: 10),
+                              child: DropdownButtonFormField(
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Masukkan Kategori Barang',
+                                ),
+                                key: UniqueKey(),
+                                hint: Text("Pilih Kategori"),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Tidak Boleh Kosong';
+                                  }
+                                  return null;
+                                },
+                                value: selectedkategori,
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    selectedkategori = newValue!;
+                                  });
+                                },
+                                items: listKategori.map((item) {
+                                  return DropdownMenuItem(
+                                    value: item['nama'].toString(),
+                                    child: Text(item['nama'].toString()),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  isKategori = false;
+                                });
+                              },
+                              child: Text("Batal"))
+                        ],
+                      ),
                 isDate == true
                     ? ElevatedButton(
                         onPressed: () {
                           setState(() {
                             isDate = false;
+                            isKategori = false;
                             from.text = "";
                             to.text = "";
                           });

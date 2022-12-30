@@ -28,8 +28,8 @@ class _TambahBarangState extends State<TambahBarang> {
   TextEditingController stok = TextEditingController();
   bool isLoading = false;
   Future<void> getData() async {
-    Uri urlKategori = Uri.parse(BaseUrl.url + '/kategori');
-    Uri urlSupplier = Uri.parse(BaseUrl.url + '/supplier');
+    Uri urlKategori = Uri.parse('${BaseUrl.url}/kategori');
+    Uri urlSupplier = Uri.parse('${BaseUrl.url}/supplier');
     try {
       var responseKategori = await http.get(urlKategori,
           headers: <String, String>{

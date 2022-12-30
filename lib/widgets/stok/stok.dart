@@ -23,35 +23,78 @@ class StokPage extends StatefulWidget {
 class _StokPageState extends State<StokPage> {
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
+  List<dynamic> listKategori = [];
+  String selectedkategori = "";
+  bool isKategori = false;
+  var client = http.Client();
+
   TextEditingController cariController = TextEditingController();
   Future<Response> getData() async {
-    Uri url;
-    if (cariController.text.isEmpty) {
-      url = Uri.parse('${BaseUrl.url}/barang');
-    } else {
-      url = Uri.parse('${BaseUrl.url}/barang?nama=${cariController.text}');
+    try {
+      String queryParam = "";
+      if (cariController.text.isNotEmpty) {
+        queryParam += "?nama=${cariController.text}";
+      }
+      if (isKategori) {
+        if (cariController.text.isEmpty) {
+          queryParam += "?kategori=$selectedkategori";
+        } else {
+          queryParam += "&kategori=$selectedkategori";
+        }
+      }
+      Uri url = Uri.parse('${BaseUrl.url}/barang$queryParam');
+      var response = await client.get(url, headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': Auth.token
+      });
+      return Response.fromJson(jsonDecode(response.body));
+    } catch (e) {
+      throw new FormatException(e.toString());
     }
-    var response = await http.get(url, headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-      'Authorization': Auth.token
-    });
-    return Response.fromJson(jsonDecode(response.body));
   }
 
   Future<void> hapus(String id) async {
     Uri url = Uri.parse('${BaseUrl.url}/hapusBarang/$id');
     try {
-      var response = await http.delete(url, headers: <String, String>{
+      var response = await client.delete(url, headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': Auth.token
       });
-      print(response.body);
       setState(() {
         isLoading = false;
       });
     } catch (e) {
       throw new FormatException(e.toString());
     }
+  }
+
+  Future<void> getKategori() async {
+    Uri urlKategori = Uri.parse('${BaseUrl.url}/kategori');
+    try {
+      var responseKategori = await client.get(urlKategori,
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': Auth.token
+          });
+      setState(() {
+        listKategori = jsonDecode(responseKategori.body)['data'];
+        selectedkategori = listKategori[0]['nama'].toString();
+      });
+    } catch (e) {
+      throw FormatException(e.toString());
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getKategori();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    cariController.dispose();
   }
 
   @override
@@ -110,29 +153,76 @@ class _StokPageState extends State<StokPage> {
                               },
                             ),
                           ),
-                          GestureDetector(
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Container(
-                                width: 70,
-                                height: 60,
-                                color: Theme.of(context).primaryColor,
-                                child: Icon(
-                                  Icons.search_rounded,
-                                  size: 30,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                            onTap: () {
-                              setState(() {});
-                            },
-                          ),
                         ],
                       ),
                     ),
                   ),
                 ),
+                isKategori == false
+                    ? TextButton(
+                        onPressed: () {
+                          setState(() {
+                            isKategori = true;
+                          });
+                        },
+                        child: Text("Tampilkan Kategori"))
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 10, right: 10, top: 10),
+                                child: DropdownButtonFormField(
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Masukkan Kategori Barang',
+                                  ),
+                                  key: UniqueKey(),
+                                  hint: Text("Pilih Kategori"),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Tidak Boleh Kosong';
+                                    }
+                                    return null;
+                                  },
+                                  value: selectedkategori,
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      selectedkategori = newValue!;
+                                    });
+                                  },
+                                  items: listKategori.map((item) {
+                                    return DropdownMenuItem(
+                                      value: item['nama'].toString(),
+                                      child: Text(item['nama'].toString()),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    isKategori = false;
+                                  });
+                                },
+                                child: Text("Batal"))
+                          ],
+                        ),
+                      ),
+                cariController.text.isNotEmpty
+                    ? ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            cariController.text = "";
+                            isKategori = false;
+                          });
+                        },
+                        child: Text("Reset"))
+                    : Container(),
                 FutureBuilder<Response>(
                   future: getData(),
                   builder: (context, snapshot) {

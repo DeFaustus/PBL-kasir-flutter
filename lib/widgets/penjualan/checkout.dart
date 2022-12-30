@@ -6,6 +6,7 @@ import 'package:pbl_kasir/models/barang_transaksi.dart';
 import 'package:http/http.dart' as http;
 import 'package:pbl_kasir/utils/auth.dart';
 import 'package:pbl_kasir/utils/base_url.dart';
+import 'package:pbl_kasir/utils/rupiah.dart';
 import 'package:pbl_kasir/widgets/penjualan/nota.dart';
 
 class CheckOut extends StatefulWidget {
@@ -67,7 +68,7 @@ class _CheckOutState extends State<CheckOut> {
           Padding(
             padding: const EdgeInsets.all(10),
             child: DataTable(
-              columnSpacing: 23,
+              columnSpacing: 20,
               columns: const [
                 DataColumn(
                   label: Expanded(
@@ -118,7 +119,7 @@ class _CheckOutState extends State<CheckOut> {
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  total.toString(),
+                  Rupiah.format(total),
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                 ),
               ],

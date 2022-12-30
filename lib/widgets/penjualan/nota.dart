@@ -25,7 +25,7 @@ class Nota extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(10),
             child: DataTable(
-              columnSpacing: 23,
+              columnSpacing: 20,
               columns: const [
                 DataColumn(
                   label: Expanded(
