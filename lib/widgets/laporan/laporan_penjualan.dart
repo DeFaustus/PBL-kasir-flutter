@@ -33,18 +33,20 @@ class _LaporanPenjualanState extends State<LaporanPenjualan>
     try {
       String queryParam = "";
       if (from.text.isNotEmpty) {
-        isDate = true;
         queryParam += "?from=${from.text}";
       }
       if (to.text.isNotEmpty) {
-        isDate = true;
-        queryParam += "&to=${to.text}";
+        if (from.text.isNotEmpty) {
+          queryParam += "&to=${to.text}";
+        } else {
+          queryParam += "?to=${to.text}";
+        }
       }
       if (isKategori) {
-        if (from.text.isEmpty || to.text.isEmpty) {
-          queryParam += "?kategori=$selectedkategori";
-        } else {
+        if (from.text.isNotEmpty || to.text.isNotEmpty) {
           queryParam += "&kategori=$selectedkategori";
+        } else {
+          queryParam += "?kategori=$selectedkategori";
         }
       }
       Uri url = Uri.parse('${BaseUrl.url}/transaksi${queryParam}');
@@ -54,7 +56,7 @@ class _LaporanPenjualanState extends State<LaporanPenjualan>
       });
       return HistoryResponse.fromJson(jsonDecode(response.body));
     } catch (e) {
-      throw new FormatException(e.toString());
+      throw FormatException(e.toString());
     }
   }
 
@@ -71,7 +73,7 @@ class _LaporanPenjualanState extends State<LaporanPenjualan>
         selectedkategori = listKategori[0]['nama'].toString();
       });
     } catch (e) {
-      throw new FormatException(e.toString());
+      throw FormatException(e.toString());
     }
   }
 
@@ -401,6 +403,32 @@ class _LaporanPenjualanState extends State<LaporanPenjualan>
                                                   Text(
                                                     Rupiah.format(snapshot.data!
                                                         .data[index].laba),
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                // ignore: prefer_const_literals_to_create_immutables
+                                                children: [
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Text(
+                                                    "Kasir : ",
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  Text(
+                                                    snapshot.data!.data[index]
+                                                        .user.name,
                                                     style: TextStyle(
                                                         fontSize: 14,
                                                         fontWeight:

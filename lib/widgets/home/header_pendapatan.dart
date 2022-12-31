@@ -33,7 +33,6 @@ class _HeaderPendapatanState extends State<HeaderPendapatan> {
   @override
   void initState() {
     super.initState();
-    getTotal();
   }
 
   @override

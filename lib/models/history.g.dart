@@ -17,6 +17,7 @@ History _$HistoryFromJson(Map<String, dynamic> json) => History(
       barang: (json['barang'] as List<dynamic>)
           .map((e) => BarangHistory.fromJson(e as Map<String, dynamic>))
           .toList(),
+      user: User.fromJson(json['user'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$HistoryToJson(History instance) => <String, dynamic>{
@@ -28,4 +29,5 @@ Map<String, dynamic> _$HistoryToJson(History instance) => <String, dynamic>{
       'created_at': instance.created_at.toIso8601String(),
       'updated_at': instance.updated_at.toIso8601String(),
       'barang': instance.barang.map((e) => e.toJson()).toList(),
+      'user': instance.user.toJson(),
     };

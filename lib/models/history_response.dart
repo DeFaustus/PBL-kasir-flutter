@@ -2,6 +2,7 @@
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:pbl_kasir/models/history.dart';
+import 'package:pbl_kasir/models/user.dart';
 part 'history_response.g.dart';
 
 @JsonSerializable(explicitToJson: true)

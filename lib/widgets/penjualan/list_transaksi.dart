@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pbl_kasir/models/barang_transaksi.dart';
@@ -204,10 +206,13 @@ class _listTransaksiState extends State<listTransaksi> {
                                       },
                                       keyboardType: TextInputType.number,
                                       onChanged: (value) {
-                                        setState(() {
-                                          widget.barangTransaksi[index].jumlah =
-                                              int.parse(
-                                                  _controller[index].text);
+                                        Timer(Duration(milliseconds: 1500), () {
+                                          setState(() {
+                                            widget.barangTransaksi[index]
+                                                    .jumlah =
+                                                int.parse(
+                                                    _controller[index].text);
+                                          });
                                         });
                                       },
                                     ),

@@ -3,6 +3,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:pbl_kasir/models/barang.dart';
 import 'package:pbl_kasir/models/barang_history.dart';
+import 'package:pbl_kasir/models/user.dart';
 part 'history.g.dart';
 
 @JsonSerializable(explicitToJson: true)
@@ -15,6 +16,7 @@ class History {
   DateTime created_at;
   DateTime updated_at;
   List<BarangHistory> barang;
+  User user;
   History({
     required this.history_transaksi_id,
     required this.user_id,
@@ -24,6 +26,7 @@ class History {
     required this.created_at,
     required this.updated_at,
     required this.barang,
+    required this.user,
   });
   factory History.fromJson(Map<String, dynamic> json) =>
       _$HistoryFromJson(json);
