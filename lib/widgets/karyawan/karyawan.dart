@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:pbl_kasir/widgets/karyawan/tambah_karyawan.dart';
+import 'package:pbl_kasir/widgets/karyawan/update_karyawan.dart';
 
 class Karyawan extends StatefulWidget {
   const Karyawan({super.key});
@@ -25,10 +26,9 @@ class _KaryawanState extends State<Karyawan> {
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': Auth.token
       });
-      print(response.body);
       return KaryawanResponse.fromJson(jsonDecode(response.body));
     } catch (e) {
-      throw new FormatException(e.toString());
+      throw FormatException(e.toString());
     }
   }
 
@@ -39,12 +39,11 @@ class _KaryawanState extends State<Karyawan> {
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': Auth.token
       });
-      print(response.body);
       setState(() {
         isLoading = false;
       });
     } catch (e) {
-      throw new FormatException(e.toString());
+      throw FormatException(e.toString());
     }
   }
 
@@ -104,6 +103,31 @@ class _KaryawanState extends State<Karyawan> {
                                     children: [
                                       SizedBox(
                                         width: 100,
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                                  context,
+                                                  PageTransition(
+                                                      child: UpdateKaryawan(
+                                                        id: snapshot.data!
+                                                            .data[index].id,
+                                                        name: snapshot.data!
+                                                            .data[index].name,
+                                                        email: snapshot.data!
+                                                            .data[index].email,
+                                                      ),
+                                                      type: PageTransitionType
+                                                          .leftToRight))
+                                              .then((value) => setState(
+                                                    () {},
+                                                  ));
+                                        },
+                                        child: Icon(
+                                          Icons.edit,
+                                          color: Colors.yellow,
+                                          size: 30,
+                                        ),
                                       ),
                                       GestureDetector(
                                         // ignore: prefer_const_constructors
@@ -171,7 +195,7 @@ class _KaryawanState extends State<Karyawan> {
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
           }
-          return Center(child: const CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         },
       ),
     );

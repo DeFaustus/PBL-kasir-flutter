@@ -9,10 +9,12 @@ part 'history_response.g.dart';
 class HistoryResponse {
   bool status;
   int laba;
+  int penjualan;
   List<History> data;
   HistoryResponse({
     required this.status,
     required this.laba,
+    required this.penjualan,
     required this.data,
   });
   factory HistoryResponse.fromJson(Map<String, dynamic> json) =>

@@ -50,17 +50,39 @@ class _LaporanPenjualanHariIniState extends State<LaporanPenjualanHariIni> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
+                      Text(
+                        "Penjualan : ",
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold),
+                      ),
+                      Expanded(
+                        child: FittedBox(
+                          child: Text(
+                            Rupiah.format(snapshot.data!.penjualan),
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
                       Text(
                         "Total Laba : ",
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                            fontSize: 15, fontWeight: FontWeight.bold),
                       ),
-                      Text(
-                        Rupiah.format(snapshot.data!.laba),
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                      Expanded(
+                        child: FittedBox(
+                          child: Text(
+                            Rupiah.format(snapshot.data!.laba),
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold),
+                          ),
+                        ),
                       ),
                     ],
                   ),
