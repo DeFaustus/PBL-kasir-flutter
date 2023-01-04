@@ -10,8 +10,8 @@ cara run project :
     - pilih nomor devices nya
     - kemudian tunggu sampai proses compile nya selesai
 
-login
-<img src="https://user-images.githubusercontent.com/62246951/210553612-2995bf63-7823-4722-8375-90a99bb52d3a.png" width="250" height="470">
+login <br>
+<img src="https://user-images.githubusercontent.com/62246951/210553612-2995bf63-7823-4722-8375-90a99bb52d3a.png" width="250" height="470"><br>
 beranda
 <img src="https://user-images.githubusercontent.com/62246951/210553557-9ca8e3ac-f611-4f72-a58e-7c066ec5bcd1.png" width="250" height="470">
 sidebar
