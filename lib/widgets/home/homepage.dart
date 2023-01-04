@@ -33,8 +33,9 @@ class _HomePageState extends State<HomePage> {
       });
       // print(Auth.isAdmin);
     } catch (e) {
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (BuildContext context) => LoginPage()));
+      // Navigator.pushReplacement(context,
+      //     MaterialPageRoute(builder: (BuildContext context) => LoginPage()));
+      Navigator.popUntil(context, (route) => route.isFirst);
     }
   }
 
