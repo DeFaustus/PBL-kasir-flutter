@@ -11,7 +11,7 @@ cara run project :
     - kemudian tunggu sampai proses compile nya selesai
 
 
-![beranda](https://user-images.githubusercontent.com/62246951/210553557-9ca8e3ac-f611-4f72-a58e-7c066ec5bcd1.png =100x100)
+![beranda](https://user-images.githubusercontent.com/62246951/210553557-9ca8e3ac-f611-4f72-a58e-7c066ec5bcd1.png | width=100)
 ![check out](https://user-images.githubusercontent.com/62246951/210553562-2574e6b1-83d6-4e9b-9012-f44e6184b651.png)
 ![daftar barang transaksi](https://user-images.githubusercontent.com/62246951/210553565-197c4394-2264-4104-bf33-0083bb86b7d9.png)
 ![daftar barang](https://user-images.githubusercontent.com/62246951/210553568-2559afe7-e8e0-4d08-a696-404b6d41f97f.png)
